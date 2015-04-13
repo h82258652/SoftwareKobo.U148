@@ -1,0 +1,24 @@
+﻿<Application
+    x:Class="SoftwareKobo.U148.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SoftwareKobo.U148"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:vm="using:SoftwareKobo.U148.ViewModels"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:conv="using:SoftwareKobo.U148.Converters"
+    mc:Ignorable="d">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <vm:ViewModelLocator x:Key="Locator"
+                                 d:IsDataSource="True" />
+                    <conv:StringFormatConverter x:Key="StringFormatConverter" />
+                    <conv:CategoryNameConverter x:Key="CategoryNameConverter" />
+                </ResourceDictionary>
+                <ResourceDictionary Source="/Styles/StyleDictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
