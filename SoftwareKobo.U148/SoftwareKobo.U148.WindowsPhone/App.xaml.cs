@@ -1,4 +1,5 @@
-﻿using SoftwareKobo.U148.Views;
+﻿using Brain.Animate;
+using SoftwareKobo.U148.Views;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,6 +38,9 @@ namespace SoftwareKobo.U148
         public App()
         {
             this.InitializeComponent();
+
+            RequestedTheme = ApplicationTheme.Dark;
+
             this.Suspending += this.OnSuspending;
         }
 
@@ -83,6 +87,8 @@ namespace SoftwareKobo.U148
 
             if (rootFrame.Content == null)
             {
+                rootFrame.ContentTransitions = null;
+
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter

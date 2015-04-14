@@ -1,10 +1,17 @@
-﻿using GalaSoft.MvvmLight.Messaging;
+﻿using Brain.Animate;
+using GalaSoft.MvvmLight.Messaging;
+using SoftwareKobo.U148.Controls;
+using SoftwareKobo.U148.Controls.Interfaces;
+using SoftwareKobo.U148.Datas;
+using SoftwareKobo.U148.Extensions;
 using SoftwareKobo.U148.Models;
 using SoftwareKobo.U148.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.ApplicationModel.Store;
 using Windows.Phone.UI.Input;
+using Windows.System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -20,13 +27,21 @@ namespace SoftwareKobo.U148.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : Page, IApplicationBar
     {
         public MainPageViewModel ViewModel
         {
             get
             {
                 return (MainPageViewModel)this.DataContext;
+            }
+        }
+
+        public ApplicationBar ApplicationBar
+        {
+            get
+            {
+                return appBar;
             }
         }
 
@@ -62,6 +77,16 @@ namespace SoftwareKobo.U148.Views
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
             e.Handled = true;
+
+            if (appBar.IsOpen)
+            {
+                return;
+            }
+
+            if (ctlAbout.IsOpen)
+            {
+                return;
+            }
 
             if (_backPressCount > 0)
             {
@@ -124,8 +149,9 @@ namespace SoftwareKobo.U148.Views
             storyboard.Begin();
         }
 
-        private void FeedItemClick(ItemClickEventArgs args)
+        private async void FeedItemClick(ItemClickEventArgs args)
         {
+            await AnimationTrigger.AnimateClose();
             Frame.Navigate(typeof(DetailPage), args.ClickedItem);
         }
 
@@ -148,6 +174,8 @@ namespace SoftwareKobo.U148.Views
 
         private void PivotHeader_Loaded(object sender, RoutedEventArgs e)
         {
+            // 缓存所有 Pivot 头。
+
             Grid grid = (Grid)sender;
             _headers.Add(grid);
             SetHeaderStyle(grid);
@@ -163,15 +191,75 @@ namespace SoftwareKobo.U148.Views
 
             if (selectedFeed.Key == headerFeed.Key)
             {
-                var u148ThemeBrush = (SolidColorBrush)Application.Current.Resources["U148ThemeBrush"];
+                // 当前 Pivot 页。
+
+                ResourceDictionary resource;
+                if (Settings.Instance.ThemeMode == ThemeMode.Day)
+                {
+                    resource = (ResourceDictionary)Application.Current.Resources.FindValue("Light");
+                }
+                else
+                {
+                    resource = (ResourceDictionary)Application.Current.Resources.FindValue("Dark");
+                }
+
+                var u148ThemeBrush = (SolidColorBrush)resource["U148ThemeBrush"];
                 textBlock.Foreground = u148ThemeBrush;
                 border.Background = u148ThemeBrush;
             }
             else
             {
-                textBlock.Foreground = new SolidColorBrush(Colors.Black);
+                ResourceDictionary resource;
+                if (Settings.Instance.ThemeMode == ThemeMode.Day)
+                {
+                    resource = (ResourceDictionary)Application.Current.Resources.FindValue("Light");
+                }
+                else
+                {
+                    resource = (ResourceDictionary)Application.Current.Resources.FindValue("Dark");
+                }
+
+                textBlock.Foreground = (SolidColorBrush)resource["TitleBrush"];
                 border.Background = new SolidColorBrush(Colors.Transparent);
             }
+        }
+
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            // 将日间模式变夜间模式，夜间模式变日间模式。
+            Settings.Instance.ThemeMode = 1 - Settings.Instance.ThemeMode;
+
+            // 重新设定 Pivot 头部的样式。
+            foreach (var header in _headers)
+            {
+                SetHeaderStyle(header);
+            }
+        }
+
+        private void btnAbout_Click(object sender, RoutedEventArgs e)
+        {
+            appBar.IsOpen = false;
+            ctlAbout.Show();
+        }
+
+        private void btnSwitchTheme_Click(object sender, RoutedEventArgs e)
+        {
+            appBar.IsOpen = false;
+
+            // 将日间模式变夜间模式，夜间模式变日间模式。
+            Settings.Instance.ThemeMode = 1 - Settings.Instance.ThemeMode;
+
+            // 重新设定 Pivot 头部的样式。
+            foreach (var header in _headers)
+            {
+                SetHeaderStyle(header);
+            }
+        }
+
+        private async void btnGivePraise_Click(object sender, RoutedEventArgs e)
+        {
+            appBar.IsOpen = false;
+            await Launcher.LaunchUriAsync(new Uri("ms-windows-store:reviewapp?appid=" + CurrentApp.AppId));
         }
     }
 }

@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="CommentService.cs" />
     <Compile Include="FeedService.cs" />
+    <Compile Include="Interfaces\ICommentService.cs" />
     <Compile Include="Interfaces\IFeedService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

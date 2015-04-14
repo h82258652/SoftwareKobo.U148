@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Comment.cs" />
+    <Compile Include="CommentDocument.cs" />
+    <Compile Include="CommentList.cs" />
+    <Compile Include="CommentUser.cs" />
     <Compile Include="Converters\UnixTimeStampConverter.cs" />
     <Compile Include="Feed.cs" />
     <Compile Include="FeedCategory.cs" />
@@ -43,7 +47,7 @@
     <Compile Include="FeedListDocument.cs" />
     <Compile Include="FeedList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="User.cs" />
+    <Compile Include="FeedUser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json">

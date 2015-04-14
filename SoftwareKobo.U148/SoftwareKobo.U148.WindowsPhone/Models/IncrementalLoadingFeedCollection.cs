@@ -18,10 +18,16 @@ namespace SoftwareKobo.U148.Models
     public class IncrementalLoadingFeedCollection : ObservableCollection<Feed>, ISupportIncrementalLoading, INotifyPropertyChanged
     {
         private readonly IFeedService _feedService;
+
         private readonly FeedCategory _category;
+
         private int _currentPage;
+
         private int _pageCount;
+
         private bool _isLoading;
+
+        private bool _hasLoadOnce;
 
         public bool IsLoading
         {
@@ -47,7 +53,7 @@ namespace SoftwareKobo.U148.Models
         {
             get
             {
-                if (_pageCount == 0)
+                if (_hasLoadOnce==false)
                 {
                     // 未加载。
                     return true;
@@ -124,6 +130,7 @@ namespace SoftwareKobo.U148.Models
             }
             finally
             {
+                _hasLoadOnce = true;
                 IsLoading = false;
             }
         }

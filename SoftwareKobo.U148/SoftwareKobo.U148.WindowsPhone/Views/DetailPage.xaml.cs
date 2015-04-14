@@ -1,4 +1,7 @@
-﻿using SoftwareKobo.U148.Extensions;
+﻿using Brain.Animate;
+using GalaSoft.MvvmLight.Messaging;
+using SoftwareKobo.U148.Datas;
+using SoftwareKobo.U148.Extensions;
 using SoftwareKobo.U148.Models;
 using SoftwareKobo.U148.ViewModels;
 using System;
@@ -39,18 +42,25 @@ namespace SoftwareKobo.U148.Views
         {
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
 
+            Messenger.Default.Register<Feed>(this,GetCommentClick);
+
             webView.Navigate(new Uri("ms-appx-web:///Html/detail.html"));
             await webView.WaitForDOMContentLoaded();
 
-            ViewModel.Feed = e.Parameter as Feed;
+            ViewModel.SetFeed(e.Parameter as Feed);
+        }
+
+        private void GetCommentClick(Feed feed)
+        {
+            Frame.Navigate(typeof(CommentPage), feed);
         }
         
-        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        private async void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
             if (Frame.CanGoBack)
             {
-                // TODO
                 e.Handled = true;
+                await AnimationTrigger.AnimateClose();
                 Frame.GoBack();
             }
         }
@@ -58,6 +68,8 @@ namespace SoftwareKobo.U148.Views
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
-        }        
+
+            Messenger.Default.Unregister<Feed>(this, GetCommentClick);
+        }
     }
 }

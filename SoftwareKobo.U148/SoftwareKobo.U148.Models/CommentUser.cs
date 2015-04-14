@@ -3,7 +3,7 @@
 namespace SoftwareKobo.U148.Models
 {
     [JsonObject]
-    public class User
+    public class CommentUser
     {
         [JsonProperty("nickname")]
         public string NickName
@@ -14,6 +14,20 @@ namespace SoftwareKobo.U148.Models
 
         [JsonProperty("alias")]
         public string Alias
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty("icon")]
+        public string Icon
+        {
+            get;
+            set;
+        }
+
+        [JsonProperty("status")]
+        public int Status
         {
             get;
             set;

@@ -1,33 +1,121 @@
-﻿<UserControl
-    x:Class="SoftwareKobo.U148.Controls.AboutPopup"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:SoftwareKobo.U148.Controls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    d:DesignHeight="300"
-    d:DesignWidth="400">
-
-    <Grid Background="#FF606060">
+﻿<UserControl x:Class="SoftwareKobo.U148.Controls.AboutPopup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:SoftwareKobo.U148.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="400"
+             x:Name="ctlRoot"
+             Visibility="Collapsed">
+    <UserControl.Resources>
+        <Storyboard x:Name="showStoryboard">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ctlRoot"
+                                           Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0"
+                                        Value="Visible" />
+            </ObjectAnimationUsingKeyFrames>
+            <ColorAnimation Storyboard.TargetName="backgroundBrush"
+                            Storyboard.TargetProperty="Color"
+                            From="#00202020"
+                            To="#C0202020"
+                            Duration="0:0:0.2" />
+            <DoubleAnimation Storyboard.TargetName="brdScale"
+                             Storyboard.TargetProperty="ScaleX"
+                             From="0.6"
+                             To="1"
+                             Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase Power="3"
+                               EasingMode="EaseIn" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="brdScale"
+                             Storyboard.TargetProperty="ScaleY"
+                             From="0.6"
+                             To="1"
+                             Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase Power="3"
+                               EasingMode="EaseIn" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <FadeInThemeAnimation Storyboard.TargetName="brdDialog"
+                                  Duration="0:0:0.2" />
+        </Storyboard>
+        <Storyboard x:Name="hideStoryboard">
+            <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ctlRoot"
+                                           Storyboard.TargetProperty="Visibility">
+                <DiscreteObjectKeyFrame KeyTime="0:0:0.2"
+                                        Value="Collapsed" />
+            </ObjectAnimationUsingKeyFrames>
+            <ColorAnimation Storyboard.TargetName="backgroundBrush"
+                            Storyboard.TargetProperty="Color"
+                            From="#C0202020"
+                            To="#00202020"
+                            Duration="0:0:0.2" />
+            <DoubleAnimation Storyboard.TargetName="brdScale"
+                             Storyboard.TargetProperty="ScaleX"
+                             From="1"
+                             To="0.6"
+                             Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase Power="3"
+                               EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <DoubleAnimation Storyboard.TargetName="brdScale"
+                             Storyboard.TargetProperty="ScaleY"
+                             From="1"
+                             To="0.6"
+                             Duration="0:0:0.2">
+                <DoubleAnimation.EasingFunction>
+                    <PowerEase Power="3"
+                               EasingMode="EaseOut" />
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+            <FadeOutThemeAnimation Storyboard.TargetName="brdDialog"
+                                   Duration="0:0:0.2"
+                                   AutoReverse="True" />
+        </Storyboard>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.Background>
+            <SolidColorBrush x:Name="backgroundBrush"
+                             Color="#00606060" />
+        </Grid.Background>
+        <!-- dialog 外的灰色部分 -->
+        <Border Background="Transparent"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch"
+                PointerPressed="brdClose_PointerPressed" />
         <Border VerticalAlignment="Center"
-                HorizontalAlignment="Center">
+                HorizontalAlignment="Center"
+                x:Name="brdDialog"
+                RenderTransformOrigin="0.5,0.5">
+            <Border.RenderTransform>
+                <ScaleTransform x:Name="brdScale"
+                                ScaleX="1"
+                                ScaleY="1" />
+            </Border.RenderTransform>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0" 
-                        Background="#FFF0F0F0" 
+                <Border Grid.Row="0"
+                        Background="#FFF0F0F0"
                         CornerRadius="5,5,0,0">
                     <StackPanel Margin="50">
-                        <Image Source="/Assets/logo.gif" 
+                        <Image Source="/Assets/logo.gif"
                                Stretch="None" />
                     </StackPanel>
                 </Border>
-                <Border Grid.Row="1" 
+                <Border Grid.Row="1"
                         Background="#FFE5E5E5"
-                        CornerRadius="0,0,5,5">
+                        CornerRadius="0,0,5,5"
+                        PointerPressed="brdClose_PointerPressed">
                     <TextBlock Margin="0,10,0,10"
                                Text="关闭窗口"
                                TextAlignment="Center"

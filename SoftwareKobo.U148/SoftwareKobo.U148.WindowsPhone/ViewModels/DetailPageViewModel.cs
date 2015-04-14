@@ -1,4 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using SoftwareKobo.U148.Models;
 using SoftwareKobo.U148.Services.Interfaces;
 
@@ -9,7 +11,10 @@ namespace SoftwareKobo.U148.ViewModels
         private readonly IFeedService _feedService;
 
         private FeedDetail _detail;
+
         private Feed _feed;
+
+        private RelayCommand _getCommentCommand;
 
         public DetailPageViewModel(IFeedService feedService)
         {
@@ -45,24 +50,38 @@ namespace SoftwareKobo.U148.ViewModels
             }
         }
 
-        public Feed Feed
+        public void SetFeed(Feed feed)
+        {
+            _feed = feed;
+            LoadDetail();
+        }
+        
+        public RelayCommand GetCommentCommand
         {
             get
             {
-                return _feed;
-            }
-            set
-            {
-                _feed = value;
-                RaisePropertyChanged(nameof(Feed));
-                LoadDetail();
+                _getCommentCommand = _getCommentCommand ?? new RelayCommand(() =>
+                    {
+                        Messenger.Default.Send(_feed);
+                    });
+                return _getCommentCommand;
             }
         }
 
         public async void LoadDetail()
         {
-            var document = await _feedService.GetDetailAsync(Feed);
-            Detail = document.Data;
+            while (true)
+            {
+                try
+                {
+                    var document = await _feedService.GetDetailAsync(_feed);
+                    Detail = document.Data;
+                    break;
+                }
+                catch
+                {
+                }
+            }
         }
     }
 }
