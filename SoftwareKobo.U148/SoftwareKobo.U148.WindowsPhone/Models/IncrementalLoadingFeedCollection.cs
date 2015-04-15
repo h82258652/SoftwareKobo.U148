@@ -1,44 +1,44 @@
-﻿using SoftwareKobo.U148.Models;
-using SoftwareKobo.U148.Services.Interfaces;
+﻿using SoftwareKobo.U148.Services.Interfaces;
 using System;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 
 namespace SoftwareKobo.U148.Models
 {
-    public class IncrementalLoadingFeedCollection : ObservableCollection<Feed>, ISupportIncrementalLoading, INotifyPropertyChanged
+    public class IncrementalLoadingFeedCollection : IncrementalLoadingCollectionBase<Feed>
     {
-        private readonly IFeedService _feedService;
+        private IFeedService _feedService;
 
-        private readonly FeedCategory _category;
+        private FeedCategory _category;
 
         private int _currentPage;
 
         private int _pageCount;
 
-        private bool _isLoading;
+        public override Task Refresh()
+        {
+            _currentPage = 0;
+            _pageCount = 0;
 
-        private bool _hasLoadOnce;
+            return base.Refresh();
+        }
 
-        public bool IsLoading
+        public override bool HasMoreItems
         {
             get
             {
-                return _isLoading;
-            }
-            protected set
-            {
-                _isLoading = value;
-                this.OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsLoading)));
+                if (_hadLoadOnce == false)
+                {
+                    // 未加载。
+                    return true;
+                }
+
+                return _currentPage < _pageCount;
             }
         }
 
@@ -49,33 +49,7 @@ namespace SoftwareKobo.U148.Models
             _currentPage = 0;
         }
 
-        public bool HasMoreItems
-        {
-            get
-            {
-                if (_hasLoadOnce==false)
-                {
-                    // 未加载。
-                    return true;
-                }
-
-                return _currentPage < _pageCount;
-            }
-        }
-
-        public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
-        {
-            if (IsLoading)
-            {
-                throw new InvalidOperationException("Only one operation in flight at a time");
-            }
-
-            IsLoading = true;
-
-            return AsyncInfo.Run(c => LoadMoreItemsAsync(c, count));
-        }
-
-        protected async Task<LoadMoreItemsResult> LoadMoreItemsAsync(CancellationToken c, uint count)
+        protected override async Task<LoadMoreItemsResult> LoadMoreItemsAsync(CancellationToken c, uint count)
         {
             try
             {
@@ -100,6 +74,10 @@ namespace SoftwareKobo.U148.Models
 
                     // 设置当前页数。
                     _currentPage = feedList.Next - 1;
+
+                    _hadLoadOnce = true;
+
+                    LastLoaded = DateTime.Now;
 
                     return new LoadMoreItemsResult()
                     {
@@ -130,7 +108,6 @@ namespace SoftwareKobo.U148.Models
             }
             finally
             {
-                _hasLoadOnce = true;
                 IsLoading = false;
             }
         }

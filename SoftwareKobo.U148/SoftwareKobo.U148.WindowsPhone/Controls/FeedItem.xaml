@@ -50,7 +50,7 @@
                            Foreground="{ThemeResource U148ThemeBrush}"
                            VerticalAlignment="Center"
                            FontSize="{ThemeResource TextStyleMediumFontSize}" />
-                <!-- Hide this textblock for format the category -->
+                <!-- Fake textblock for format the category -->
                 <TextBlock x:Name="txtFakeCategory"
                            Text="{Binding Path=Category,Converter={StaticResource ResourceKey=CategoryNameConverter}}"
                            Visibility="Collapsed" />
@@ -60,13 +60,13 @@
                            VerticalAlignment="Center"
                            Margin="5,0,0,0"
                            FontSize="{ThemeResource TextStyleMediumFontSize}"
-                           Foreground="{ThemeResource TitleBrush}"
+                           Foreground="{ThemeResource MainTextBrush}"
                            TextTrimming="WordEllipsis" />
             </Grid>
             <!-- Summary -->
             <TextBlock Text="{Binding Path=Summary}"
                        TextWrapping="Wrap"
-                       Foreground="Gray"
+                       Foreground="{ThemeResource SubTextBrush}"
                        FontSize="{ThemeResource TextStyleMediumFontSize}"
                        MaxLines="2"
                        TextTrimming="WordEllipsis"
@@ -76,13 +76,13 @@
                         HorizontalAlignment="Right"
                         Margin="0,10,0,0">
                 <!-- Browsed -->
-                <TextBlock Foreground="Gray"
+                <TextBlock Foreground="{ThemeResource SubTextBrush}"
                            FontSize="{ThemeResource TextStyleMediumFontSize}">
                         <Run Text="{Binding Path=CountBrowse}" />
                         <Run Text="人看过" />
                 </TextBlock>
                 <!-- Reviewed -->
-                <TextBlock Foreground="Gray"
+                <TextBlock Foreground="{ThemeResource SubTextBrush}"
                            FontSize="{ThemeResource TextStyleMediumFontSize}"
                            Margin="5,0,0,0">
                         <Run Text="{Binding Path=CountReview}" />

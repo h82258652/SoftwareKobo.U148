@@ -55,7 +55,7 @@ namespace SoftwareKobo.U148.ViewModels
             _feed = feed;
             LoadDetail();
         }
-        
+
         public RelayCommand GetCommentCommand
         {
             get

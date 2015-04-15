@@ -39,7 +39,7 @@
                             <TextBlock Grid.Row="0"
                                        Text="{Binding Path=Key,Converter={StaticResource ResourceKey=CategoryNameConverter}}"
                                        FontSize="25"
-                                       Foreground="{ThemeResource TitleBrush}" />
+                                       Foreground="{ThemeResource MainTextBrush}" />
                             <Border Grid.Row="1"
                                     Margin="1,0,1,0" />
                         </Grid>
@@ -56,26 +56,68 @@
                         </Grid.RowDefinitions>
                         <ProgressBar Grid.Row="0"
                                      IsIndeterminate="{Binding Value.IsLoading}" />
-                        <ListView Grid.Row="1"
-                                  ItemsSource="{Binding Value}"
-                                  IsItemClickEnabled="True">
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <controls:FeedItem />
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="ListViewItem">
-                                    <Setter Property="HorizontalContentAlignment"
-                                            Value="Stretch" />
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <interactivity:Interaction.Behaviors>
-                                <core:EventTriggerBehavior EventName="ItemClick">
-                                    <core:InvokeCommandAction Command="{Binding ElementName=page,Path=ViewModel.FeedClickCommand}" />
-                                </core:EventTriggerBehavior>
-                            </interactivity:Interaction.Behaviors>
-                        </ListView>
+                        <controls:PullToRefreshPanel Grid.Row="1"
+                                                     Pulling="PullToRefreshPanel_Pulling"
+                                                     Refreshing="PullToRefreshPanel_Refreshing">
+                            <controls:PullToRefreshPanel.PullContent>
+                                <Grid Height="70"
+                                      HorizontalAlignment="Left"
+                                      Margin="20,0,0,0">
+                                    <Grid VerticalAlignment="Bottom">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Grid Grid.Column="0">
+                                            <Ellipse StrokeThickness="2"
+                                                     Stroke="#FF007ED4"
+                                                     Width="36"
+                                                     Height="36" />
+                                            <SymbolIcon Symbol="Forward"
+                                                        RenderTransformOrigin="0.5,0.5"
+                                                        Foreground="#FF007ED4">
+                                                <SymbolIcon.RenderTransform>
+                                                    <RotateTransform x:Name="symbolRotate"
+                                                                     Angle="0" />
+                                                </SymbolIcon.RenderTransform>
+                                            </SymbolIcon>
+                                        </Grid>
+                                        <Grid Grid.Column="1"
+                                              Margin="5,0,0,0">
+                                            <StackPanel Orientation="Vertical">
+                                                <TextBlock x:Name="txtPullToRefreshNotice"
+                                                           Text="下拉刷新"
+                                                           FontWeight="Bold"
+                                                           FontSize="{ThemeResource TextStyleLargeFontSize}" />
+                                                <TextBlock Foreground="Gray">
+                                                    <Run Text="最后更新：" />
+                                                    <Run Text="{Binding Path=Value.LastLoaded,Converter={StaticResource StringFormatConverter},ConverterParameter='{}{0:H:mm}'}" />
+                                                </TextBlock>
+                                            </StackPanel>
+                                        </Grid>
+                                    </Grid>
+                                </Grid>
+                            </controls:PullToRefreshPanel.PullContent>
+                            <ListView ItemsSource="{Binding Value}"
+                                      IsItemClickEnabled="True">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <controls:FeedItem />
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="HorizontalContentAlignment"
+                                                Value="Stretch" />
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                                <interactivity:Interaction.Behaviors>
+                                    <core:EventTriggerBehavior EventName="ItemClick">
+                                        <core:InvokeCommandAction Command="{Binding ElementName=page,Path=ViewModel.FeedClickCommand}" />
+                                    </core:EventTriggerBehavior>
+                                </interactivity:Interaction.Behaviors>
+                            </ListView>
+                        </controls:PullToRefreshPanel>
                     </Grid>
                 </DataTemplate>
             </Pivot.ItemTemplate>
@@ -120,9 +162,11 @@
                         <SymbolIcon Symbol="OutlineStar"
                                     Foreground="White"
                                     Width="30"
-                                    Height="30" RenderTransformOrigin="0.5,0.5" >
+                                    Height="30"
+                                    RenderTransformOrigin="0.5,0.5">
                             <SymbolIcon.RenderTransform>
-                                <ScaleTransform ScaleX="1.3" ScaleY="1.3"/>
+                                <ScaleTransform ScaleX="1.3"
+                                                ScaleY="1.3" />
                             </SymbolIcon.RenderTransform>
                         </SymbolIcon>
                         <TextBlock Text="点赞"

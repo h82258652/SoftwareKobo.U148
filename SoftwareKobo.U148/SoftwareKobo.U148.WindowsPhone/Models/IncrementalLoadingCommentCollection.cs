@@ -57,7 +57,8 @@ namespace SoftwareKobo.U148.Models
                     // 未加载。
                     return true;
                 }
-                throw new NotImplementedException();
+
+                return _currentPage < _pageCount;
             }
         }
 
@@ -99,6 +100,8 @@ namespace SoftwareKobo.U148.Models
                     // 设置当前页数。
                     _currentPage = commentList.Next - 1;
 
+                    _hasLoadOnce = true;
+
                     return new LoadMoreItemsResult()
                     {
                         Count = (uint)commentList.Count()
@@ -134,7 +137,6 @@ namespace SoftwareKobo.U148.Models
             }
             finally
             {
-                _hasLoadOnce = true;
                 IsLoading = false;
             }
         }

@@ -1,4 +1,6 @@
-﻿using Windows.Phone.UI.Input;
+﻿using SoftwareKobo.U148.Models;
+using SoftwareKobo.U148.ViewModels;
+using Windows.Phone.UI.Input;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -16,6 +18,14 @@ namespace SoftwareKobo.U148.Views
             this.InitializeComponent();
         }
 
+        public CommentPageViewModel ViewModel
+        {
+            get
+            {
+                return (CommentPageViewModel)this.DataContext;
+            }
+        }
+
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
@@ -29,6 +39,8 @@ namespace SoftwareKobo.U148.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+
+            ViewModel.SetFeed(e.Parameter as Feed);
         }
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)

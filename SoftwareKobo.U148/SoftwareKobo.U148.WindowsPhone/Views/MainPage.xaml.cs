@@ -9,6 +9,7 @@ using SoftwareKobo.U148.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Store;
 using Windows.Phone.UI.Input;
 using Windows.System;
@@ -219,7 +220,7 @@ namespace SoftwareKobo.U148.Views
                     resource = (ResourceDictionary)Application.Current.Resources.FindValue("Dark");
                 }
 
-                textBlock.Foreground = (SolidColorBrush)resource["TitleBrush"];
+                textBlock.Foreground = (SolidColorBrush)resource["MainTextBrush"];
                 border.Background = new SolidColorBrush(Colors.Transparent);
             }
         }
@@ -260,6 +261,45 @@ namespace SoftwareKobo.U148.Views
         {
             appBar.IsOpen = false;
             await Launcher.LaunchUriAsync(new Uri("ms-windows-store:reviewapp?appid=" + CurrentApp.AppId));
+        }
+
+        private async Task PullToRefreshPanel_Refreshing(object sender, EventArgs e)
+        {
+            PullToRefreshPanel panel = (PullToRefreshPanel)sender;
+            var dataContext = (KeyValuePair<FeedCategory, IncrementalLoadingFeedCollection>)panel.DataContext;
+            await dataContext.Value.Refresh();            
+        }
+
+        private void PullToRefreshPanel_Pulling(object sender, PullingEventArgs e)
+        {
+            PullToRefreshPanel panel = (PullToRefreshPanel)sender;
+            TextBlock txtPullToRefreshNotice = (TextBlock)panel.FindName("txtPullToRefreshNotice");
+            if (e.State == PullingState.Pull)
+            {
+                var symbolRotate = (RotateTransform)panel.FindName("symbolRotate");
+                if (e.Offset > 36)
+                {
+                    var pullContentHeight = ((FrameworkElement)(panel.PullContent)).ActualHeight;
+                    symbolRotate.Angle = -90 * (e.Offset - 36) / (pullContentHeight - 36);
+                }
+                else
+                {
+                    symbolRotate.Angle = 0;
+                }
+
+                txtPullToRefreshNotice.Text = "下拉刷新";
+            }
+            else if (e.State == PullingState.PrepareRefresh)
+            {
+                var symbolRotate = (RotateTransform)panel.FindName("symbolRotate");
+                symbolRotate.Angle = -90;
+
+                txtPullToRefreshNotice.Text = "松开刷新";
+            }
+            else if (e.State == PullingState.Refreshing)
+            {
+                txtPullToRefreshNotice.Text = "正在刷新";
+            }
         }
     }
 }
