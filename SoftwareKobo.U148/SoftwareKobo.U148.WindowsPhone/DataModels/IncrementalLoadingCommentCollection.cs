@@ -1,4 +1,5 @@
-﻿using SoftwareKobo.U148.Services.Interfaces;
+﻿using SoftwareKobo.U148.Models;
+using SoftwareKobo.U148.Services.Interfaces;
 using System;
 using System.Diagnostics;
 using System.Globalization;
@@ -8,17 +9,24 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Data;
 
-namespace SoftwareKobo.U148.Models
+namespace SoftwareKobo.U148.DataModels
 {
-    public class IncrementalLoadingFeedCollection : IncrementalLoadingCollectionBase<Feed>
+    public class IncrementalLoadingCommentCollection : IncrementalLoadingCollectionBase<Comment>
     {
-        private IFeedService _feedService;
+        private readonly ICommentService _commentService;
 
-        private FeedCategory _category;
+        private readonly Feed _feed;
 
         private int _currentPage;
 
         private int _pageCount;
+
+        public IncrementalLoadingCommentCollection(ICommentService commentService, Feed feed)
+        {
+            _commentService = commentService;
+            _feed = feed;
+            _currentPage = 0;
+        }
 
         public override Task Refresh()
         {
@@ -42,38 +50,31 @@ namespace SoftwareKobo.U148.Models
             }
         }
 
-        public IncrementalLoadingFeedCollection(IFeedService feedService, FeedCategory category)
-        {
-            _feedService = feedService;
-            _category = category;
-            _currentPage = 0;
-        }
-
         protected override async Task<LoadMoreItemsResult> LoadMoreItemsAsync(CancellationToken c, uint count)
         {
             try
             {
                 // 加载下一页。
-                FeedListDocument document = await _feedService.GetCategoryAsync(_category, _currentPage + 1);
+                CommentDocument document = await _commentService.GetCommentAsync(_feed, _currentPage + 1);
                 if (document.Code == 0 && document.Message == "success")
                 {
                     // 加载成功。
 
-                    FeedList feedList = document.Data;
-                    // 设置该分类的最大页数。
-                    _pageCount = feedList.PageCount;
+                    CommentList commentList = document.Data;
+                    // 设置该文章评论的最大页数。
+                    _pageCount = commentList.PageCount;
 
-                    foreach (Feed feed in feedList)
+                    foreach (Comment comment in commentList)
                     {
-                        if (this.Any(temp => temp.Id == feed.Id) == false)
+                        if (this.Any(temp => temp.Id == comment.Id) == false)
                         {
                             // 不添加已经重复的项。
-                            this.Add(feed);
+                            this.Add(comment);
                         }
                     }
 
                     // 设置当前页数。
-                    _currentPage = feedList.Next - 1;
+                    _currentPage = commentList.Next - 1;
 
                     _hadLoadOnce = true;
 
@@ -81,13 +82,13 @@ namespace SoftwareKobo.U148.Models
 
                     return new LoadMoreItemsResult()
                     {
-                        Count = (uint)feedList.Count()
+                        Count = (uint)commentList.Count()
                     };
                 }
                 else
                 {
                     // 加载失败。
-                    Debug.WriteLine(string.Format(CultureInfo.InvariantCulture, "category load failed. code: {0}. msg: {1}", document.Code, document.Message));
+                    Debug.WriteLine(string.Format(CultureInfo.InvariantCulture, "comment load failed. code: {0}. msg: {1}", document.Code, document.Message));
 
                     return new LoadMoreItemsResult()
                     {
@@ -97,14 +98,11 @@ namespace SoftwareKobo.U148.Models
             }
             catch (HttpRequestException)
             {
-                // 网络原因，不处理。让 UI 继续读条。
-                return new LoadMoreItemsResult() { Count = 0 };
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex);
-
-                return new LoadMoreItemsResult() { Count = 0 };
+                // 网络原因。
+                return new LoadMoreItemsResult()
+                {
+                    Count = 0
+                };
             }
             finally
             {

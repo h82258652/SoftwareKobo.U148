@@ -50,74 +50,18 @@
                 <DataTemplate>
                     <Grid Margin="-20,-34,-20,0"
                           Background="{ThemeResource ListBackgroundBrush}">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <ProgressBar Grid.Row="0"
-                                     IsIndeterminate="{Binding Value.IsLoading}" />
-                        <controls:PullToRefreshPanel Grid.Row="1"
-                                                     Pulling="PullToRefreshPanel_Pulling"
-                                                     Refreshing="PullToRefreshPanel_Refreshing">
-                            <controls:PullToRefreshPanel.PullContent>
-                                <Grid Height="70"
-                                      HorizontalAlignment="Left"
-                                      Margin="20,0,0,0">
-                                    <Grid VerticalAlignment="Bottom">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid Grid.Column="0">
-                                            <Ellipse StrokeThickness="2"
-                                                     Stroke="#FF007ED4"
-                                                     Width="36"
-                                                     Height="36" />
-                                            <SymbolIcon Symbol="Forward"
-                                                        RenderTransformOrigin="0.5,0.5"
-                                                        Foreground="#FF007ED4">
-                                                <SymbolIcon.RenderTransform>
-                                                    <RotateTransform x:Name="symbolRotate"
-                                                                     Angle="0" />
-                                                </SymbolIcon.RenderTransform>
-                                            </SymbolIcon>
-                                        </Grid>
-                                        <Grid Grid.Column="1"
-                                              Margin="5,0,0,0">
-                                            <StackPanel Orientation="Vertical">
-                                                <TextBlock x:Name="txtPullToRefreshNotice"
-                                                           Text="下拉刷新"
-                                                           FontWeight="Bold"
-                                                           FontSize="{ThemeResource TextStyleLargeFontSize}" />
-                                                <TextBlock Foreground="Gray">
-                                                    <Run Text="最后更新：" />
-                                                    <Run Text="{Binding Path=Value.LastLoaded,Converter={StaticResource StringFormatConverter},ConverterParameter='{}{0:H:mm}'}" />
-                                                </TextBlock>
-                                            </StackPanel>
-                                        </Grid>
-                                    </Grid>
-                                </Grid>
-                            </controls:PullToRefreshPanel.PullContent>
-                            <ListView ItemsSource="{Binding Value}"
-                                      IsItemClickEnabled="True">
-                                <ListView.ItemTemplate>
-                                    <DataTemplate>
+                        <controls:PullToRefreshListView Grid.Row="1"
+                                                        ItemsSource="{Binding Path=Value}"
+                                                        ItemClick="PullToRefreshListView_ItemClick">
+                            <controls:PullToRefreshListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Border BorderThickness="0,1,0,0"
+                                            BorderBrush="{ThemeResource SplitLineBrush}">
                                         <controls:FeedItem />
-                                    </DataTemplate>
-                                </ListView.ItemTemplate>
-                                <ListView.ItemContainerStyle>
-                                    <Style TargetType="ListViewItem">
-                                        <Setter Property="HorizontalContentAlignment"
-                                                Value="Stretch" />
-                                    </Style>
-                                </ListView.ItemContainerStyle>
-                                <interactivity:Interaction.Behaviors>
-                                    <core:EventTriggerBehavior EventName="ItemClick">
-                                        <core:InvokeCommandAction Command="{Binding ElementName=page,Path=ViewModel.FeedClickCommand}" />
-                                    </core:EventTriggerBehavior>
-                                </interactivity:Interaction.Behaviors>
-                            </ListView>
-                        </controls:PullToRefreshPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </controls:PullToRefreshListView.ItemTemplate>
+                        </controls:PullToRefreshListView>
                     </Grid>
                 </DataTemplate>
             </Pivot.ItemTemplate>

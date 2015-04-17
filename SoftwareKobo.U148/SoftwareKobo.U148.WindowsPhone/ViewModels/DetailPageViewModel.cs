@@ -21,18 +21,16 @@ namespace SoftwareKobo.U148.ViewModels
             _feedService = feedService;
         }
 
-        public string Content
+        public Feed Feed
         {
             get
             {
-                if (_detail == null)
-                {
-                    return null;
-                }
-                else
-                {
-                    return _detail.Content;
-                }
+                return _feed;
+            }
+            private set
+            {
+                _feed = value;
+                RaisePropertyChanged(nameof(Feed));
             }
         }
 
@@ -46,13 +44,12 @@ namespace SoftwareKobo.U148.ViewModels
             {
                 _detail = value;
                 RaisePropertyChanged(nameof(Detail));
-                RaisePropertyChanged(nameof(Content));
             }
         }
 
         public void SetFeed(Feed feed)
         {
-            _feed = feed;
+            Feed = feed;
             LoadDetail();
         }
 
@@ -62,7 +59,7 @@ namespace SoftwareKobo.U148.ViewModels
             {
                 _getCommentCommand = _getCommentCommand ?? new RelayCommand(() =>
                     {
-                        Messenger.Default.Send(_feed);
+                        Messenger.Default.Send<Feed>(_feed);
                     });
                 return _getCommentCommand;
             }
@@ -72,10 +69,12 @@ namespace SoftwareKobo.U148.ViewModels
         {
             while (true)
             {
+                // 直到加载完成。
                 try
                 {
                     var document = await _feedService.GetDetailAsync(_feed);
                     Detail = document.Data;
+                    Messenger.Default.Send<string>(Detail.Content);
                     break;
                 }
                 catch

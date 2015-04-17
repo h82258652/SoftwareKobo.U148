@@ -5,12 +5,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:model="using:SoftwareKobo.U148.Models"
+             xmlns:extension="using:SoftwareKobo.U148.Extensions"
+             xmlns:conv="using:SoftwareKobo.U148.Converters"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="400"
              d:DataContext="{d:DesignInstance Type=model:Comment,IsDesignTimeCreatable=True}">
-
-    <Grid Margin="0,20,0,20">
+    <UserControl.Resources>
+        <conv:SolidColorBrushToColorConverter x:Key="SolidColorBrushToColorConverter" />
+    </UserControl.Resources>
+    <Grid Margin="0,15,0,15">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -20,17 +24,30 @@
                    Width="64"
                    Height="64"
                    VerticalAlignment="Top"
-                   Margin="15,0,15,0" />
+                   Margin="10,0,10,0" />
         </Grid>
-        <StackPanel Grid.Column="1"
-                    Orientation="Vertical">
+        <Grid Grid.Column="1"
+              Margin="0,0,10,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
             <!-- Nickname and time -->
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Path=User.NickName}" />
-                <TextBlock Text="{Binding Path=CreateTime}" />
+            <StackPanel Grid.Row="0"
+                        Orientation="Horizontal">
+                <TextBlock Text="{Binding Path=User.NickName}"
+                           Foreground="{ThemeResource U148ThemeBrush}"
+                           FontSize="{ThemeResource TextStyleMediumFontSize}" />
+                <TextBlock Text="{Binding Path=CreateTime,Converter={StaticResource StringFormatConverter},ConverterParameter='{}{0:yyyy-MM-dd}'}"
+                           Foreground="{ThemeResource SubTextBrush}"
+                           FontSize="{ThemeResource TextStyleMediumFontSize}"
+                           Margin="5,0,0,0" />
             </StackPanel>
-            <!-- Comment Content -->
-            <TextBlock Text="{Binding Path=Contents}" />
-        </StackPanel>
+            <TextBlock Grid.Row="1"
+                       x:Name="txtContent"
+                       TextWrapping="Wrap"
+                       FontSize="{ThemeResource TextStyleLargeFontSize}"
+                       Foreground="{ThemeResource MainTextBrush}" />
+        </Grid>
     </Grid>
 </UserControl>

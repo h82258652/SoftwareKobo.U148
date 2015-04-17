@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using SoftwareKobo.U148.Models;
+using Windows.Data.Html;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 // The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -19,9 +9,28 @@ namespace SoftwareKobo.U148.Controls
 {
     public sealed partial class CommentItem : UserControl
     {
+        public Comment Comment
+        {
+            get
+            {
+                return (Comment)this.DataContext;
+            }
+        }
+
         public CommentItem()
         {
             this.InitializeComponent();
+
+            this.DataContextChanged += CommentItem_DataContextChanged;
+        }
+
+        private void CommentItem_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            var comment = args.NewValue as Comment;
+            if (comment != null)
+            {
+                txtContent.Text = HtmlUtilities.ConvertToText(comment.Contents);
+            }
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Brain.Animate;
-using GalaSoft.MvvmLight.Messaging;
 using SoftwareKobo.U148.Controls;
 using SoftwareKobo.U148.Controls.Interfaces;
+using SoftwareKobo.U148.DataModels;
 using SoftwareKobo.U148.Datas;
 using SoftwareKobo.U148.Extensions;
 using SoftwareKobo.U148.Models;
@@ -9,7 +9,6 @@ using SoftwareKobo.U148.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.ApplicationModel.Store;
 using Windows.Phone.UI.Input;
 using Windows.System;
@@ -30,12 +29,15 @@ namespace SoftwareKobo.U148.Views
     /// </summary>
     public sealed partial class MainPage : Page, IApplicationBar
     {
-        public MainPageViewModel ViewModel
+        private int _backPressCount;
+
+        private List<Grid> _headers = new List<Grid>();
+
+        public MainPage()
         {
-            get
-            {
-                return (MainPageViewModel)this.DataContext;
-            }
+            this.InitializeComponent();
+
+            this.NavigationCacheMode = NavigationCacheMode.Required;
         }
 
         public ApplicationBar ApplicationBar
@@ -46,11 +48,17 @@ namespace SoftwareKobo.U148.Views
             }
         }
 
-        public MainPage()
+        public MainPageViewModel ViewModel
         {
-            this.InitializeComponent();
+            get
+            {
+                return (MainPageViewModel)this.DataContext;
+            }
+        }
 
-            this.NavigationCacheMode = NavigationCacheMode.Required;
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
         }
 
         /// <summary>
@@ -69,11 +77,45 @@ namespace SoftwareKobo.U148.Views
             // this event is handled for you.
 
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
-
-            Messenger.Default.Register<ItemClickEventArgs>(this, FeedItemClick);
         }
 
-        private int _backPressCount;
+        private void AppBarButton_Click(object sender, RoutedEventArgs e)
+        {
+            // 将日间模式变夜间模式，夜间模式变日间模式。
+            Settings.Instance.ThemeMode = 1 - Settings.Instance.ThemeMode;
+
+            // 重新设定 Pivot 头部的样式。
+            foreach (var header in _headers)
+            {
+                SetHeaderStyle(header);
+            }
+        }
+
+        private void btnAbout_Click(object sender, RoutedEventArgs e)
+        {
+            appBar.IsOpen = false;
+            ctlAbout.Show();
+        }
+
+        private async void btnGivePraise_Click(object sender, RoutedEventArgs e)
+        {
+            appBar.IsOpen = false;
+            await Launcher.LaunchUriAsync(new Uri("ms-windows-store:reviewapp?appid=" + CurrentApp.AppId));
+        }
+
+        private void btnSwitchTheme_Click(object sender, RoutedEventArgs e)
+        {
+            appBar.IsOpen = false;
+
+            // 将日间模式变夜间模式，夜间模式变日间模式。
+            Settings.Instance.ThemeMode = 1 - Settings.Instance.ThemeMode;
+
+            // 重新设定 Pivot 头部的样式。
+            foreach (var header in _headers)
+            {
+                SetHeaderStyle(header);
+            }
+        }
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
@@ -150,19 +192,6 @@ namespace SoftwareKobo.U148.Views
             storyboard.Begin();
         }
 
-        private async void FeedItemClick(ItemClickEventArgs args)
-        {
-            await AnimationTrigger.AnimateClose();
-            Frame.Navigate(typeof(DetailPage), args.ClickedItem);
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
-
-            Messenger.Default.Unregister<ItemClickEventArgs>(this, FeedItemClick);
-        }
-
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             foreach (var header in _headers)
@@ -171,8 +200,6 @@ namespace SoftwareKobo.U148.Views
             }
         }
 
-        private List<Grid> _headers = new List<Grid>();
-
         private void PivotHeader_Loaded(object sender, RoutedEventArgs e)
         {
             // 缓存所有 Pivot 头。
@@ -180,6 +207,13 @@ namespace SoftwareKobo.U148.Views
             Grid grid = (Grid)sender;
             _headers.Add(grid);
             SetHeaderStyle(grid);
+        }
+
+        private async void PullToRefreshListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            // 显示页面离开动画。
+            await AnimationTrigger.AnimateClose();
+            Frame.Navigate(typeof(DetailPage), e.ClickedItem);
         }
 
         private void SetHeaderStyle(Grid header)
@@ -222,83 +256,6 @@ namespace SoftwareKobo.U148.Views
 
                 textBlock.Foreground = (SolidColorBrush)resource["MainTextBrush"];
                 border.Background = new SolidColorBrush(Colors.Transparent);
-            }
-        }
-
-        private void AppBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            // 将日间模式变夜间模式，夜间模式变日间模式。
-            Settings.Instance.ThemeMode = 1 - Settings.Instance.ThemeMode;
-
-            // 重新设定 Pivot 头部的样式。
-            foreach (var header in _headers)
-            {
-                SetHeaderStyle(header);
-            }
-        }
-
-        private void btnAbout_Click(object sender, RoutedEventArgs e)
-        {
-            appBar.IsOpen = false;
-            ctlAbout.Show();
-        }
-
-        private void btnSwitchTheme_Click(object sender, RoutedEventArgs e)
-        {
-            appBar.IsOpen = false;
-
-            // 将日间模式变夜间模式，夜间模式变日间模式。
-            Settings.Instance.ThemeMode = 1 - Settings.Instance.ThemeMode;
-
-            // 重新设定 Pivot 头部的样式。
-            foreach (var header in _headers)
-            {
-                SetHeaderStyle(header);
-            }
-        }
-
-        private async void btnGivePraise_Click(object sender, RoutedEventArgs e)
-        {
-            appBar.IsOpen = false;
-            await Launcher.LaunchUriAsync(new Uri("ms-windows-store:reviewapp?appid=" + CurrentApp.AppId));
-        }
-
-        private async Task PullToRefreshPanel_Refreshing(object sender, EventArgs e)
-        {
-            PullToRefreshPanel panel = (PullToRefreshPanel)sender;
-            var dataContext = (KeyValuePair<FeedCategory, IncrementalLoadingFeedCollection>)panel.DataContext;
-            await dataContext.Value.Refresh();            
-        }
-
-        private void PullToRefreshPanel_Pulling(object sender, PullingEventArgs e)
-        {
-            PullToRefreshPanel panel = (PullToRefreshPanel)sender;
-            TextBlock txtPullToRefreshNotice = (TextBlock)panel.FindName("txtPullToRefreshNotice");
-            if (e.State == PullingState.Pull)
-            {
-                var symbolRotate = (RotateTransform)panel.FindName("symbolRotate");
-                if (e.Offset > 36)
-                {
-                    var pullContentHeight = ((FrameworkElement)(panel.PullContent)).ActualHeight;
-                    symbolRotate.Angle = -90 * (e.Offset - 36) / (pullContentHeight - 36);
-                }
-                else
-                {
-                    symbolRotate.Angle = 0;
-                }
-
-                txtPullToRefreshNotice.Text = "下拉刷新";
-            }
-            else if (e.State == PullingState.PrepareRefresh)
-            {
-                var symbolRotate = (RotateTransform)panel.FindName("symbolRotate");
-                symbolRotate.Angle = -90;
-
-                txtPullToRefreshNotice.Text = "松开刷新";
-            }
-            else if (e.State == PullingState.Refreshing)
-            {
-                txtPullToRefreshNotice.Text = "正在刷新";
             }
         }
     }

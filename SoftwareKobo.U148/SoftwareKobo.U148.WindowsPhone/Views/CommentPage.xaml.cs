@@ -1,4 +1,5 @@
-﻿using SoftwareKobo.U148.Models;
+﻿using Brain.Animate;
+using SoftwareKobo.U148.Models;
 using SoftwareKobo.U148.ViewModels;
 using Windows.Phone.UI.Input;
 using Windows.UI.Xaml.Controls;
@@ -43,12 +44,19 @@ namespace SoftwareKobo.U148.Views
             ViewModel.SetFeed(e.Parameter as Feed);
         }
 
-        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        private async void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
             if (Frame.CanGoBack)
             {
                 e.Handled = true;
-                Frame.GoBack();
+                await this.AnimateAsync(new FadeOutRightAnimation()
+                {
+                    SpeedRatio = 2
+                });
+                if (Frame.CanGoBack)
+                {
+                    Frame.GoBack();
+                }
             }
         }
     }

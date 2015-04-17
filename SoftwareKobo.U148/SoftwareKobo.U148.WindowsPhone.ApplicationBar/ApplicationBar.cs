@@ -1,6 +1,7 @@
 ﻿using SoftwareKobo.U148.Controls.Extensions;
 using System;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.Phone.UI.Input;
 using Windows.UI.Core;
@@ -11,7 +12,6 @@ using Windows.UI.Xaml.Markup;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using WinRTXamlToolkit.AwaitableUI;
-using WinRTXamlToolkit.Controls.Extensions;
 
 // The Templated Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234235
 
@@ -124,7 +124,7 @@ namespace SoftwareKobo.U148.Controls
             }
             private set
             {
-                SetValue(SecondaryCommandsProperty,value);
+                SetValue(SecondaryCommandsProperty, value);
             }
         }
 
@@ -185,16 +185,21 @@ namespace SoftwareKobo.U148.Controls
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
         }
 
-        private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        private async void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
-            this.IsOpen = false;
-            e.Handled = true;
+            if (this.IsOpen)
+            {
+                e.Handled = true;
+                // 防止与双击后退退出冲突。
+                await Task.Delay(1);
+                this.IsOpen = false;
+            }
         }
 
         private void ApplicationBar_Unloaded(object sender, RoutedEventArgs e)
         {
             var coreWindow = Window.Current.CoreWindow;
-            coreWindow.PointerPressed -= CoreWindow_PointerPressed;            
+            coreWindow.PointerPressed -= CoreWindow_PointerPressed;
         }
 
         private FrameworkElement PART_rightSwicthSymbol;
@@ -226,10 +231,6 @@ namespace SoftwareKobo.U148.Controls
             #endregion 列表关闭动画
 
             PlayRightSwitchAnimation(duration);
-
-            #region 右侧开关动画
-
-            #endregion
 
             storyboard.Begin();
 
@@ -307,7 +308,7 @@ namespace SoftwareKobo.U148.Controls
 
             PlayRightSwitchAnimation(duration);
 
-            #endregion
+            #endregion 右侧开关动画
 
             if (Opened != null)
             {

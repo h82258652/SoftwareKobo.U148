@@ -1,13 +1,10 @@
 ﻿using Brain.Animate;
 using GalaSoft.MvvmLight.Messaging;
-using SoftwareKobo.U148.Datas;
-using SoftwareKobo.U148.Extensions;
 using SoftwareKobo.U148.Models;
 using SoftwareKobo.U148.ViewModels;
 using System;
-using System.Diagnostics;
+using System.Threading.Tasks;
 using Windows.Phone.UI.Input;
-using Windows.Storage;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -20,6 +17,13 @@ namespace SoftwareKobo.U148.Views
     /// </summary>
     public sealed partial class DetailPage : Page
     {
+        private TaskCompletionSource<object> _isDomContentLoaded = new TaskCompletionSource<object>();
+
+        public DetailPage()
+        {
+            this.InitializeComponent();
+        }
+
         public DetailPageViewModel ViewModel
         {
             get
@@ -28,9 +32,13 @@ namespace SoftwareKobo.U148.Views
             }
         }
 
-        public DetailPage()
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            this.InitializeComponent();
+            HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
+
+            Messenger.Default.Unregister<Feed>(this, GetCommentClick);
+
+            Messenger.Default.Unregister<string>(this, SetContent);
         }
 
         /// <summary>
@@ -38,38 +46,52 @@ namespace SoftwareKobo.U148.Views
         /// </summary>
         /// <param name="e">Event data that describes how this page was reached.
         /// This parameter is typically used to configure the page.</param>
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             HardwareButtons.BackPressed += HardwareButtons_BackPressed;
 
-            Messenger.Default.Register<Feed>(this,GetCommentClick);
+            Messenger.Default.Register<Feed>(this, GetCommentClick);
+
+            Messenger.Default.Register<string>(this, SetContent);
 
             webView.Navigate(new Uri("ms-appx-web:///Html/detail.html"));
-            await webView.WaitForDOMContentLoaded();
 
             ViewModel.SetFeed(e.Parameter as Feed);
         }
 
-        private void GetCommentClick(Feed feed)
+        private async void GetCommentClick(Feed feed)
         {
+            await this.AnimateAsync(new FadeOutAnimation());
             Frame.Navigate(typeof(CommentPage), feed);
         }
-        
+
         private async void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
             if (Frame.CanGoBack)
             {
                 e.Handled = true;
-                await AnimationTrigger.AnimateClose();
-                Frame.GoBack();
+                await this.AnimateAsync(new FadeOutRightAnimation()
+                {
+                    SpeedRatio = 2
+                });
+                if (Frame.CanGoBack)
+                {
+                    Frame.GoBack();
+                }
             }
         }
 
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        private async void SetContent(string content)
         {
-            HardwareButtons.BackPressed -= HardwareButtons_BackPressed;
+            // 等待 Dom 加载完成。
+            await _isDomContentLoaded.Task;
 
-            Messenger.Default.Unregister<Feed>(this, GetCommentClick);
+            await webView.InvokeScriptAsync("setContent", new string[] { content });
+        }
+
+        private void WebView_DOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)
+        {
+            _isDomContentLoaded.SetResult(null);
         }
     }
 }

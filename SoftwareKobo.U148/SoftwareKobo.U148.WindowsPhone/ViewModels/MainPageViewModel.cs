@@ -1,13 +1,10 @@
 ﻿using GalaSoft.MvvmLight;
-using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
+using SoftwareKobo.U148.DataModels;
 using SoftwareKobo.U148.Models;
 using SoftwareKobo.U148.Services.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using Windows.UI.Xaml.Controls;
 
 namespace SoftwareKobo.U148.ViewModels
 {
@@ -33,17 +30,6 @@ namespace SoftwareKobo.U148.ViewModels
             get
             {
                 return _categories;
-            }
-        }
-
-        private RelayCommand<ItemClickEventArgs> _feedClickCommand;
-
-        public RelayCommand<ItemClickEventArgs> FeedClickCommand
-        {
-            get
-            {
-                _feedClickCommand = _feedClickCommand ?? new RelayCommand<ItemClickEventArgs>(args => Messenger.Default.Send(args));
-                return _feedClickCommand;
             }
         }
     }

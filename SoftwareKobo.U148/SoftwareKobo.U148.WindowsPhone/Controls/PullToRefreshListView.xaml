@@ -1,0 +1,74 @@
+﻿<UserControl x:Class="SoftwareKobo.U148.Controls.PullToRefreshListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:SoftwareKobo.U148.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="300"
+             d:DesignWidth="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <ProgressBar Grid.Row="0"
+                     IsIndeterminate="{Binding ElementName=lvw,Path=ItemsSource.IsLoading}" />
+        <controls:PullToRefreshPanel Grid.Row="1"
+                                     Pulling="PullToRefreshPanel_Pulling"
+                                     Refreshing="PullToRefreshPanel_Refreshing">
+            <!-- 下拉部分 -->
+            <controls:PullToRefreshPanel.PullContent>
+                <Grid x:Name="grdPullContent"
+                      Height="150"
+                      HorizontalAlignment="Left"
+                      Margin="20,0,5,0">
+                    <Grid VerticalAlignment="Bottom">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0"
+                              x:Name="grdSymbol">
+                            <Ellipse StrokeThickness="2"
+                                     Stroke="{StaticResource RefreshIconBrush}"
+                                     Width="36"
+                                     Height="36" />
+                            <SymbolIcon Symbol="Forward"
+                                        RenderTransformOrigin="0.5,0.5"
+                                        Foreground="{StaticResource RefreshIconBrush}">
+                                <SymbolIcon.RenderTransform>
+                                    <RotateTransform x:Name="symbolRotate"
+                                                     Angle="0" />
+                                </SymbolIcon.RenderTransform>
+                            </SymbolIcon>
+                        </Grid>
+                        <Grid Grid.Column="1"
+                              Margin="5,0,0,0">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock x:Name="txtPullToRefreshNotice"
+                                           Text="下拉刷新"
+                                           FontWeight="Bold"
+                                           FontSize="{ThemeResource TextStyleLargeFontSize}" />
+                                <TextBlock Foreground="Gray">
+                                    <Run Text="最后更新：" />
+                                    <Run Text="{Binding ElementName=lvw,Path=ItemsSource.LastLoaded,Converter={StaticResource StringFormatConverter},ConverterParameter='{}{0:H:mm}'}" />
+                                </TextBlock>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </Grid>
+            </controls:PullToRefreshPanel.PullContent>
+            <!-- 内容列表 -->
+            <ListView x:Name="lvw"
+                      IsItemClickEnabled="True">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment"
+                                Value="Stretch" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+        </controls:PullToRefreshPanel>
+    </Grid>
+</UserControl>

@@ -1,15 +1,17 @@
-﻿using System;
+﻿using SoftwareKobo.U148.DataModels.Interfaces;
+using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.UI.Xaml.Data;
 
-namespace SoftwareKobo.U148.Models
+namespace SoftwareKobo.U148.DataModels
 {
-    public abstract class IncrementalLoadingCollectionBase<T> : ObservableCollection<T>, ISupportIncrementalLoading
+    public abstract class IncrementalLoadingCollectionBase<T> : ObservableCollection<T>, ISupportIncrementalLoading, IRefreshable
     {
         private bool _isLoading;
 
@@ -38,41 +40,50 @@ namespace SoftwareKobo.U148.Models
             }
         }
 
-
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
         {
             if (IsLoading)
             {
-                throw new InvalidOperationException("Only one operation in flight at a time");
+                return AsyncInfo.Run(c =>
+                {
+                    return Task.Run(() =>
+                    {
+                        return new LoadMoreItemsResult()
+                        {
+                            Count = 0
+                        };
+                    });
+                });
             }
 
             IsLoading = true;
 
-            return AsyncInfo.Run(c => LoadMoreItemsAsync(c, count));
+            return AsyncInfo.Run(c =>
+            {
+                try
+                {
+                    return LoadMoreItemsAsync(c, count);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+
+                    return Task.Run(() =>
+                    {
+                        return new LoadMoreItemsResult() { Count = 0 };
+                    });
+                }
+            });
         }
 
         protected abstract Task<LoadMoreItemsResult> LoadMoreItemsAsync(CancellationToken c, uint count);
-        
+
         public virtual async Task Refresh()
         {
             _hadLoadOnce = false;
             ClearItems();
 
-            if (IsLoading == false)
-            {
-                await Task.Factory.StartNew(() =>
-                {
-                    while (IsLoading == false)
-                    {
-                    }
-                });
-            }
-            await Task.Factory.StartNew(() =>
-            {
-                while (IsLoading)
-                {
-                }
-            });
+            await LoadMoreItemsAsync(1);
         }
 
         public DateTime LastLoaded

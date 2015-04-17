@@ -15,20 +15,42 @@
     <bam:AnimationTrigger.Open>
         <bam:FadeInLeftAnimation SpeedRatio="1.2" />
     </bam:AnimationTrigger.Open>
-    <bam:AnimationTrigger.Close>
-        <bam:FadeOutRightAnimation SpeedRatio="2" />
-    </bam:AnimationTrigger.Close>
     <Page.Resources>
         <conv:SolidColorBrushToColorConverter x:Key="SolidColorBrushToColorConverter" />
+        <conv:BooleanReverseConverter x:Key="BooleanReverseConverter" />
+        <conv:MinimumConverter x:Key="MinimumConverter"
+                               CompareTo="99" />
     </Page.Resources>
     <Grid>
         <WebView x:Name="webView"
-                 extension:WebViewExtensions.Content="{Binding Path=Content}"
+                 DOMContentLoaded="WebView_DOMContentLoaded"
                  DefaultBackgroundColor="{Binding Source={ThemeResource ListBackgroundBrush},Converter={StaticResource ResourceKey=SolidColorBrushToColorConverter}}" />
-        <controls:ApplicationBar Background="{ThemeResource U148ThemeBrush}">
-            <controls:ApplicationBar.SecondaryCommands>
-                <Button Content="查看评论" Command="{Binding Path=GetCommentCommand}" />
-            </controls:ApplicationBar.SecondaryCommands>
+        <controls:ApplicationBar x:Name="appBar"
+                                 Background="{ThemeResource U148ThemeBrush}">
+            <controls:ApplicationBarPrimaryButton Margin="0,-16,0,0"
+                                                  Background="{ThemeResource U148ThemeBrush}"
+                                                  Label="评论"
+                                                  IsCompact="{Binding ElementName=appBar,Path=IsOpen,Converter={StaticResource BooleanReverseConverter}}"
+                                                  Command="{Binding Path=GetCommentCommand}">
+                <controls:ApplicationBarPrimaryButton.Icon>
+                    <Grid HorizontalAlignment="Center"
+                          VerticalAlignment="Center">
+                        <PathIcon HorizontalAlignment="Center"
+                                  VerticalAlignment="Center"
+                                  Data="M9,22A1,1 0 0,1 8,21V18H4A2,2 0 0,1 2,16V4C2,2.89 2.9,2 4,2H20A2,2 0 0,1 22,4V16A2,2 0 0,1 20,18H13.9L10.2,21.71C10,21.9 9.75,22 9.5,22V22H9M10,16V19.08L13.08,16H20V4H4V16H10Z"
+                                  RenderTransformOrigin="0.5,0.5">
+                            <PathIcon.RenderTransform>
+                                <CompositeTransform ScaleX="1.2"
+                                                    ScaleY="1.2"
+                                                    TranslateX="-1"></CompositeTransform>
+                            </PathIcon.RenderTransform>
+                        </PathIcon>
+                        <TextBlock HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding Path=Feed.CountReview,Converter={StaticResource MinimumConverter}}" />
+                    </Grid>
+                </controls:ApplicationBarPrimaryButton.Icon>
+            </controls:ApplicationBarPrimaryButton>
         </controls:ApplicationBar>
     </Grid>
 </Page>

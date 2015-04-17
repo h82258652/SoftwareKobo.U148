@@ -2,7 +2,7 @@
 
 namespace SoftwareKobo.U148.Controls
 {
-    public class PullingEventArgs : EventArgs
+    public sealed class PullingEventArgs : EventArgs
     {
         public PullingEventArgs(double offset, PullingState state)
         {

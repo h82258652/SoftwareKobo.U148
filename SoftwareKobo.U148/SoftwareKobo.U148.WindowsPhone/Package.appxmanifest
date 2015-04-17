@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="91b03ad7-3622-43d1-b7f0-b502922f9e28" Publisher="CN=h82258652" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="91b03ad7-3622-43d1-b7f0-b502922f9e28" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="18174h82258652.U148" Publisher="CN=D8CBB42C-5DD4-4A02-8424-31AF9627DADA" Version="1.1.0.0" />
+  <mp:PhoneIdentity PhoneProductId="3352f43b-61e3-4738-a238-da3115fecdb0" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>SoftwareKobo.U148.WindowsPhone</DisplayName>
+    <DisplayName>U148有意思吧</DisplayName>
     <PublisherDisplayName>h82258652</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

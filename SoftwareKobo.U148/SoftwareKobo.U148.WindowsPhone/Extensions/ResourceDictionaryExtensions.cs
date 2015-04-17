@@ -8,10 +8,12 @@ namespace SoftwareKobo.U148.Extensions
         {
             if (resouce.ContainsKey(key))
             {
+                // 该资源字典直接含有该值。
                 return resouce[key];
             }
             else
             {
+                // 从主题字典查找。
                 foreach (var theme in resouce.ThemeDictionaries)
                 {
                     if ((string)theme.Key == key)
@@ -19,6 +21,7 @@ namespace SoftwareKobo.U148.Extensions
                         return theme.Value;
                     }
                 }
+                // 从包含的字典查找。
                 foreach (var childResouce in resouce.MergedDictionaries)
                 {
                     var value = FindValue(childResouce, key);

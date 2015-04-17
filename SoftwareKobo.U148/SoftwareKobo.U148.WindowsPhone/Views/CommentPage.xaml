@@ -5,36 +5,33 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:SoftwareKobo.U148.Controls"
+      xmlns:bam="using:Brain.Animate"
       mc:Ignorable="d"
       Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
       DataContext="{Binding Source={StaticResource Locator},Path=Comment}"
       RequestedTheme="{Binding Source={StaticResource Settings},Path=ThemeMode,Converter={StaticResource ThemeConverter}}">
-    <Page.BottomAppBar>
-        <CommandBar>
-            <AppBarButton Icon="Accept"
-                          Label="appbarbutton" />
-            <AppBarButton Icon="Cancel"
-                          Label="appbarbutton" />
-        </CommandBar>
-    </Page.BottomAppBar>
-
+    <bam:AnimationTrigger.Open>
+        <bam:FadeInLeftAnimation SpeedRatio="1.2" />
+    </bam:AnimationTrigger.Open>
     <Grid>
-        <ListView Background="Red" ItemsSource="{Binding Path=Comments}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <controls:CommentItem />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment"
-                            Value="Stretch" />
-                    <Setter Property="BorderBrush" Value="Green"/>
-                    <Setter Property="BorderThickness"
-                            Value="0,1,0,1" />
-                    <Setter Property="Margin" Value="0,-1,0,0"/>
-                </Style>
-            </ListView.ItemContainerStyle>        
-        </ListView>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+        </Grid>
+        <Grid Grid.Row="1"
+              Background="{ThemeResource ListBackgroundBrush}">
+            <controls:PullToRefreshListView ItemsSource="{Binding Comments}">
+                <controls:PullToRefreshListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border BorderThickness="0,1,0,0"
+                                BorderBrush="{ThemeResource SplitLineBrush}">
+                            <controls:CommentItem />
+                        </Border>
+                    </DataTemplate>
+                </controls:PullToRefreshListView.ItemTemplate>
+            </controls:PullToRefreshListView>
+        </Grid>
     </Grid>
 </Page>
