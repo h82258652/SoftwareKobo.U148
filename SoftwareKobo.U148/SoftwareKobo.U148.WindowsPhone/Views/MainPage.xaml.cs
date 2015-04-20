@@ -9,6 +9,7 @@ using SoftwareKobo.U148.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Windows.ApplicationModel.Email;
 using Windows.ApplicationModel.Store;
 using Windows.Phone.UI.Input;
 using Windows.System;
@@ -257,6 +258,14 @@ namespace SoftwareKobo.U148.Views
                 textBlock.Foreground = (SolidColorBrush)resource["MainTextBrush"];
                 border.Background = new SolidColorBrush(Colors.Transparent);
             }
+        }
+
+        private async void ButtonX_Click(object sender, RoutedEventArgs e)
+        {
+            EmailMessage email = new EmailMessage();
+            email.To.Add(new EmailRecipient("h82258652@hotmail.com"));
+            email.Subject = "U148有意思吧beta反馈";
+            await EmailManager.ShowComposeNewEmailAsync(email);
         }
     }
 }

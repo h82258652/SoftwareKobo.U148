@@ -86,6 +86,7 @@
                             Stretch="None" />
             </controls:ApplicationBar.SecondaryBackground>
             <controls:ApplicationBar.SecondaryCommands>
+                <Button Content="beta版反馈意见" Click="ButtonX_Click"></Button>
                 <Button Style="{StaticResource ApplicationBarSecondaryButtonStyle}"
                         Click="btnSwitchTheme_Click">
                     <StackPanel Orientation="Horizontal">

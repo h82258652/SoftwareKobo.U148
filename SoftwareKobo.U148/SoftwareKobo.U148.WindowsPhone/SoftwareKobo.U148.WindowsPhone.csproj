@@ -146,7 +146,8 @@
     <Content Include="Assets\WideLogo.scale-240.png" />
     <Content Include="Html\comment.html" />
     <Content Include="Html\css\usite.css" />
-    <Content Include="Html\detail.html" />
+    <Content Include="Html\detail_night.html" />
+    <Content Include="Html\detail_day.html" />
     <Content Include="Html\js\func.js" />
     <Content Include="Html\js\img.js" />
     <Content Include="Html\js\jquery-2.1.3.min.js" />

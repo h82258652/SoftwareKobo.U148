@@ -1,5 +1,6 @@
 ﻿using Brain.Animate;
 using GalaSoft.MvvmLight.Messaging;
+using SoftwareKobo.U148.Datas;
 using SoftwareKobo.U148.Models;
 using SoftwareKobo.U148.ViewModels;
 using System;
@@ -54,7 +55,14 @@ namespace SoftwareKobo.U148.Views
 
             Messenger.Default.Register<string>(this, SetContent);
 
-            webView.Navigate(new Uri("ms-appx-web:///Html/detail.html"));
+            if (Settings.Instance.ThemeMode == ThemeMode.Day)
+            {
+                webView.Navigate(new Uri("ms-appx-web:///Html/detail_day.html"));
+            }
+            else
+            {
+                webView.Navigate(new Uri("ms-appx-web:///Html/detail_night.html"));
+            }
 
             ViewModel.SetFeed(e.Parameter as Feed);
         }
