@@ -51,5 +51,13 @@ namespace SoftwareKobo.U148.Services
         9：集市
         10：短品
         */
+
+        /*
+        API_LOGIN
+        http://api.u148.net/json/login
+        POST
+        email
+        password
+        */
     }
 }

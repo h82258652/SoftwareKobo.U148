@@ -1,7 +1,7 @@
 ﻿using SoftwareKobo.U148.DataModels.Interfaces;
 using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -15,9 +15,15 @@ namespace SoftwareKobo.U148.Controls
 
         public static readonly DependencyProperty ItemTemplateProperty = ListView.ItemTemplateProperty;
 
+        private UISettings _uiSettings;
+
         public PullToRefreshListView()
         {
             this.InitializeComponent();
+
+            this.Loaded += PullToRefreshListView_Loaded;
+
+            this.Unloaded += PullToRefreshListView_Unloaded;
         }
 
         public event ItemClickEventHandler ItemClick
@@ -62,14 +68,31 @@ namespace SoftwareKobo.U148.Controls
             listView.lvw.ItemsSource = e.NewValue;
         }
 
+        private void PullToRefreshListView_Loaded(object sender, RoutedEventArgs e)
+        {
+            _uiSettings = new UISettings();
+            UpdateSymbolScale(_uiSettings.TextScaleFactor);
+            _uiSettings.TextScaleFactorChanged += PullToRefreshListView_TextScaleFactorChanged;
+        }
+
+        private void PullToRefreshListView_TextScaleFactorChanged(UISettings sender, object args)
+        {
+            UpdateSymbolScale(sender.TextScaleFactor);
+        }
+
+        private void PullToRefreshListView_Unloaded(object sender, RoutedEventArgs e)
+        {
+            _uiSettings.TextScaleFactorChanged -= PullToRefreshListView_TextScaleFactorChanged;
+        }
+
         private void PullToRefreshPanel_Pulling(object sender, PullingEventArgs e)
         {
             if (e.State == PullingState.Pull)
             {
-                if (e.Offset > grdSymbol.ActualHeight)
+                if (e.Offset > ctlSymbol.ActualHeight)
                 {
                     var pullContentHeight = grdPullContent.ActualHeight;
-                    symbolRotate.Angle = -90 * (e.Offset - grdSymbol.ActualHeight) / (pullContentHeight - grdSymbol.ActualHeight);
+                    symbolRotate.Angle = -90 * (e.Offset - ctlSymbol.ActualHeight) / (pullContentHeight - ctlSymbol.ActualHeight);
                 }
                 else
                 {
@@ -97,6 +120,12 @@ namespace SoftwareKobo.U148.Controls
             {
                 await refreshableCollection.Refresh();
             }
+        }
+
+        private void UpdateSymbolScale(double scale)
+        {
+            symbolScale.ScaleX = scale;
+            symbolScale.ScaleY = scale;
         }
     }
 }

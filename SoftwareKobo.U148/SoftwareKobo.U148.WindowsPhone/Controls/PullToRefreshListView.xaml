@@ -4,6 +4,7 @@
              xmlns:controls="using:SoftwareKobo.U148.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:winrtxamltoolkitcontrols="using:WinRTXamlToolkit.Controls"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="400">
@@ -28,21 +29,29 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="0"
-                              x:Name="grdSymbol">
-                            <Ellipse StrokeThickness="2"
-                                     Stroke="{StaticResource RefreshIconBrush}"
-                                     Width="36"
-                                     Height="36" />
-                            <SymbolIcon Symbol="Forward"
-                                        RenderTransformOrigin="0.5,0.5"
-                                        Foreground="{StaticResource RefreshIconBrush}">
-                                <SymbolIcon.RenderTransform>
-                                    <RotateTransform x:Name="symbolRotate"
-                                                     Angle="0" />
-                                </SymbolIcon.RenderTransform>
-                            </SymbolIcon>
-                        </Grid>
+                        <winrtxamltoolkitcontrols:LayoutTransformControl Grid.Column="0"
+                                                                         x:Name="ctlSymbol">
+                            <winrtxamltoolkitcontrols:LayoutTransformControl.Transform>
+                                <ScaleTransform x:Name="symbolScale"
+                                                ScaleX="1"
+                                                ScaleY="1" />
+                            </winrtxamltoolkitcontrols:LayoutTransformControl.Transform>
+                            <Grid>
+                                <Ellipse StrokeThickness="2"
+                                         Stroke="{StaticResource RefreshIconBrush}"
+                                         Width="36"
+                                         Height="36" />
+                                <SymbolIcon Symbol="Forward"
+                                            RenderTransformOrigin="0.5,0.5"
+                                            Foreground="{StaticResource RefreshIconBrush}">
+                                    <SymbolIcon.RenderTransform>
+                                        <RotateTransform x:Name="symbolRotate"
+                                                         Angle="0" />
+                                    </SymbolIcon.RenderTransform>
+                                </SymbolIcon>
+                            </Grid>
+                        </winrtxamltoolkitcontrols:LayoutTransformControl>
+
                         <Grid Grid.Column="1"
                               Margin="5,0,0,0">
                             <StackPanel Orientation="Vertical">
