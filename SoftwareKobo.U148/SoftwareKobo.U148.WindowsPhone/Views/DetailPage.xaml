@@ -47,7 +47,8 @@
                         </PathIcon>
                         <TextBlock HorizontalAlignment="Center"
                                    VerticalAlignment="Center"
-                                   Text="{Binding Path=Feed.CountReview,Converter={StaticResource MinimumConverter}}" />
+                                   Text="{Binding Path=Feed.CountReview,Converter={StaticResource MinimumConverter}}"
+                                   IsTextScaleFactorEnabled="False" />
                     </Grid>
                 </controls:ApplicationBarPrimaryButton.Icon>
             </controls:ApplicationBarPrimaryButton>
