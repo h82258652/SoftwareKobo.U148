@@ -48,10 +48,11 @@
                                    IsTextScaleFactorEnabled="False" />
                     </Grid>
                     <!-- 用户头像 -->
-                    <Grid Grid.Column="1">
+                    <Grid Grid.Column="1"
+                          Background="Transparent"
+                          PointerReleased="imgAvatar_PointerReleased">
                         <Ellipse Width="48"
-                                 Height="48"
-                                 PointerReleased="imgAvatar_PointerReleased">
+                                 Height="48">
                             <Ellipse.Fill>
                                 <ImageBrush Stretch="Fill"
                                             ImageSource="{Binding Source={StaticResource User},Path=Icon}" />

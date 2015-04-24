@@ -1,6 +1,8 @@
 ﻿using Brain.Animate;
 using SoftwareKobo.U148.ViewModels;
+using System;
 using Windows.Phone.UI.Input;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -74,7 +76,7 @@ namespace SoftwareKobo.U148.Views
                 pwdPassword.Focus(FocusState.Programmatic);
                 return;
             }
-            
+
             string result = await ViewModel.Login(txtEmail.Text, pwdPassword.Password);
             if (result == "success")
             {
@@ -87,10 +89,15 @@ namespace SoftwareKobo.U148.Views
             }
         }
 
-        private void btnLogout_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void btnLogout_Click(object sender, RoutedEventArgs e)
         {
             ViewModel.Logout();
             GoBack();
+        }
+
+        private async void btnRegister_Click(object sender, RoutedEventArgs e)
+        {
+            await Launcher.LaunchUriAsync(new Uri("http://www.u148.net/user/register.html", UriKind.Absolute));
         }
     }
 }

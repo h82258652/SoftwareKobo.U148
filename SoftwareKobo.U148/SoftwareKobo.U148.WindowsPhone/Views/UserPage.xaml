@@ -42,6 +42,7 @@
                                FontSize="{ThemeResource TextStyleExtraLargeFontSize}"
                                TextWrapping="Wrap" />
                 </StackPanel>
+                <Button HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="没有账号？立即注册！" Margin="0,0,0,100" Click="btnRegister_Click"/>
             </Grid>
             <Grid x:Name="grdLogining"
                   Visibility="{Binding Path=IsLogining,Converter={StaticResource IsLoginedToLogoutGridVisibilityConverter}}"
