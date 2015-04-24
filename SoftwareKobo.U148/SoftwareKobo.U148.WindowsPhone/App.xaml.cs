@@ -30,7 +30,9 @@ namespace SoftwareKobo.U148
     /// </summary>
     public sealed partial class App : Application
     {
+#pragma warning disable 169
         private TransitionCollection transitions;
+#pragma warning restore 169
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
