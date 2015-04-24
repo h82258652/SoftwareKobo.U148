@@ -15,6 +15,7 @@
                     <vm:ViewModelLocator x:Key="Locator"
                                          d:IsDataSource="True" />
                     <data:Settings x:Key="Settings" />
+                    <data:User x:Key="User"/>
                     <conv:ThemeConverter x:Key="ThemeConverter" />
                     <conv:StringFormatConverter x:Key="StringFormatConverter" />
                     <conv:CategoryNameConverter x:Key="CategoryNameConverter" />

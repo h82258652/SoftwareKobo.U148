@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SoftwareKobo.U148.Extensions;
 using SoftwareKobo.U148.Models;
 using System.ComponentModel;
 using Windows.Foundation.Collections;
@@ -11,6 +12,14 @@ namespace SoftwareKobo.U148.Datas
         private static IPropertySet _localSettings = ApplicationData.Current.LocalSettings.Values;
 
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public static User Instance
+        {
+            get
+            {
+                return (User)App.Current.Resources.FindValue("User");
+            }
+        }
 
         public UserInfo Data
         {
@@ -35,14 +44,24 @@ namespace SoftwareKobo.U148.Datas
             }
             set
             {
-                string json = JsonConvert.SerializeObject(value);
-                if (_localSettings.ContainsKey(nameof(Data)))
+                if (value != null)
                 {
-                    _localSettings[nameof(Data)] = json;
+                    string json = JsonConvert.SerializeObject(value);
+                    if (_localSettings.ContainsKey(nameof(Data)))
+                    {
+                        _localSettings[nameof(Data)] = json;
+                    }
+                    else
+                    {
+                        _localSettings.Add(nameof(Data), json);
+                    }
                 }
                 else
                 {
-                    _localSettings.Add(nameof(Data), json);
+                    if (_localSettings.ContainsKey(nameof(Data)))
+                    {
+                        _localSettings.Remove(nameof(Data));
+                    }
                 }
                 if (PropertyChanged != null)
                 {

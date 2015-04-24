@@ -1,5 +1,7 @@
-﻿using SoftwareKobo.U148.ViewModels;
+﻿using Brain.Animate;
+using SoftwareKobo.U148.ViewModels;
 using Windows.Phone.UI.Input;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -42,27 +44,53 @@ namespace SoftwareKobo.U148.Views
 
         private void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
         {
+            e.Handled = true;
+            GoBack();
+        }
+
+        private async void GoBack()
+        {
             if (Frame.CanGoBack)
             {
-                e.Handled = true;
-                Frame.GoBack();
+                await AnimationTrigger.AnimateClose();
+                if (Frame.CanGoBack)
+                {
+                    Frame.GoBack();
+                }
             }
         }
 
-        private async void btnLogin_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void btnLogin_Click(object sender, RoutedEventArgs e)
         {
+            if (txtEmail.Text.Length <= 0)
+            {
+                txtError.Text = "邮箱不能为空";
+                txtEmail.Focus(FocusState.Programmatic);
+                return;
+            }
+            if (pwdPassword.Password.Length <= 0)
+            {
+                txtError.Text = "密码不能为空";
+                pwdPassword.Focus(FocusState.Programmatic);
+                return;
+            }
+            
             string result = await ViewModel.Login(txtEmail.Text, pwdPassword.Password);
             if (result == "success")
             {
+                GoBack();
             }
             else
             {
+                txtError.Text = result;
+                return;
             }
         }
 
         private void btnLogout_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-
+            ViewModel.Logout();
+            GoBack();
         }
     }
 }

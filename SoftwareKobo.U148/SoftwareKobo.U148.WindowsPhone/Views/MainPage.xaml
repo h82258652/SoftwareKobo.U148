@@ -51,10 +51,10 @@
                     <Grid Grid.Column="1">
                         <Ellipse Width="48"
                                  Height="48"
-                                 PointerReleased="Ellipse_PointerReleased">
+                                 PointerReleased="imgAvatar_PointerReleased">
                             <Ellipse.Fill>
                                 <ImageBrush Stretch="Fill"
-                                            ImageSource="{Binding Path=User.Icon}" />
+                                            ImageSource="{Binding Source={StaticResource User},Path=Icon}" />
                             </Ellipse.Fill>
                         </Ellipse>
                     </Grid>

@@ -16,6 +16,7 @@ using Windows.System;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
@@ -267,8 +268,8 @@ namespace SoftwareKobo.U148.Views
             email.Subject = "U148有意思吧beta反馈";
             await EmailManager.ShowComposeNewEmailAsync(email);
         }
-
-        private void Ellipse_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        
+        private void imgAvatar_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             Frame.Navigate(typeof(UserPage));
         }

@@ -6,6 +6,12 @@ namespace SoftwareKobo.U148.Converters
 {
     public class BooleanToVisibilityConverter : IValueConverter
     {
+        public bool IsReversed
+        {
+            get;
+            set;
+        }
+
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             bool bValue = false;
@@ -21,19 +27,30 @@ namespace SoftwareKobo.U148.Converters
                     bValue = temp.Value;
                 }
             }
+
+            if (IsReversed)
+            {
+                bValue = !bValue;
+            }
+
             return bValue ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
+            bool bValue = false;
+
             if (value is Visibility)
             {
-                return (Visibility)value == Visibility.Visible;
+                bValue = (Visibility)value == Visibility.Visible;
             }
-            else
+
+            if (IsReversed)
             {
-                return false;
+                bValue = !bValue;
             }
+
+            return bValue;
         }
     }
 }

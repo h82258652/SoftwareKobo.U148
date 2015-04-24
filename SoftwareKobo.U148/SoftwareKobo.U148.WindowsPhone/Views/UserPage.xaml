@@ -6,16 +6,26 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:controls="using:SoftwareKobo.U148.Controls"
       xmlns:conv="using:SoftwareKobo.U148.Converters"
+      xmlns:bam="using:Brain.Animate"
       mc:Ignorable="d"
       Background="{ThemeResource ListBackgroundBrush}"
       DataContext="{Binding Source={StaticResource Locator},Path=User}"
       RequestedTheme="{Binding Source={StaticResource Settings},Path=ThemeMode,Converter={StaticResource ThemeConverter}}">
+    <bam:AnimationTrigger.Open>
+        <bam:FadeInAnimation SpeedRatio="3" />
+    </bam:AnimationTrigger.Open>
+    <bam:AnimationTrigger.Close>
+        <bam:FadeOutAnimation SpeedRatio="3" />
+    </bam:AnimationTrigger.Close>
     <Page.Resources>
         <conv:BooleanReverseConverter x:Key="BooleanReverseConverter" />
+        <conv:BooleanToVisibilityConverter x:Key="IsLoginedToLoginGridVisibilityConverter"
+                                           IsReversed="True" />
+        <conv:BooleanToVisibilityConverter x:Key="IsLoginedToLogoutGridVisibilityConverter" />
     </Page.Resources>
     <Grid>
         <!-- 登录 -->
-        <Grid Visibility="Collapsed">
+        <Grid Visibility="{Binding Source={StaticResource User},Path=IsLogined,Converter={StaticResource IsLoginedToLoginGridVisibilityConverter},Mode=OneTime}">
             <Grid>
                 <StackPanel VerticalAlignment="Center">
                     <TextBox x:Name="txtEmail"
@@ -25,6 +35,24 @@
                     <PasswordBox x:Name="pwdPassword"
                                  Margin="10"
                                  PlaceholderText="密码" />
+                    <TextBlock x:Name="txtError"
+                               Foreground="Red"
+                               TextAlignment="Center"
+                               Margin="10"
+                               FontSize="{ThemeResource TextStyleExtraLargeFontSize}"
+                               TextWrapping="Wrap" />
+                </StackPanel>
+            </Grid>
+            <Grid x:Name="grdLogining"
+                  Visibility="{Binding Path=IsLogining,Converter={StaticResource IsLoginedToLogoutGridVisibilityConverter}}"
+                  Background="#7F7F7F7F">
+                <StackPanel VerticalAlignment="Center">
+                    <ProgressBar IsIndeterminate="True" />
+                    <TextBlock Text="登录中"
+                               TextAlignment="Center"
+                               FontSize="{ThemeResource TextStyleMediumFontSize}"
+                               Margin="0,3,0,0"
+                               Foreground="White" />
                 </StackPanel>
             </Grid>
             <Grid Background="{ThemeResource U148ThemeBrush}"
@@ -49,21 +77,22 @@
             </controls:ApplicationBar>
         </Grid>
         <!-- 登出 -->
-        <Grid>
+        <Grid Visibility="{Binding Source={StaticResource User},Path=IsLogined,Converter={StaticResource IsLoginedToLogoutGridVisibilityConverter},Mode=OneTime}">
             <Grid>
                 <StackPanel Margin="0,100,0,0">
                     <Ellipse Width="48"
                              Height="48">
                         <Ellipse.Fill>
                             <ImageBrush Stretch="Fill"
-                                        ImageSource="{Binding Path=User.Icon}" />
+                                        ImageSource="{Binding Source={StaticResource User},Path=Icon,Mode=OneTime}" />
                         </Ellipse.Fill>
                     </Ellipse>
-                    <!--<TextBlock Text="{Binding Path=User.Data.NickName}" />-->
-                    <TextBlock Text="h82258652"
+                    <TextBlock Text="{Binding Source={StaticResource User},Path=Data.NickName,Mode=OneTime}"
                                TextAlignment="Center"
-                               Foreground="#7BCFA6" Margin="0,5,0,0" IsTextScaleFactorEnabled="False"
-                               FontSize="13.333" />
+                               Foreground="#7BCFA6"
+                               Margin="0,5,0,0"
+                               IsTextScaleFactorEnabled="False"
+                               FontSize="{StaticResource TextStyleMediumFontSize}" />
                 </StackPanel>
             </Grid>
             <Grid Background="{ThemeResource U148ThemeBrush}"

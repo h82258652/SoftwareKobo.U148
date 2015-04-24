@@ -8,38 +8,37 @@ namespace SoftwareKobo.U148.ViewModels
 {
     public class UserPageViewModel : ViewModelBase
     {
-        private User _user;
-
         private IUserService _userService;
 
         public UserPageViewModel(IUserService userService)
         {
             _userService = userService;
-
-            User = new User();
         }
 
-        public User User
+        private bool _isLogining;
+
+        public bool IsLogining
         {
             get
             {
-                return _user;
+                return _isLogining;
             }
-            set
+            private set
             {
-                _user = value;
-                RaisePropertyChanged(nameof(User));
+                _isLogining = value;
+                RaisePropertyChanged(nameof(IsLogining));
             }
         }
 
         public async Task<string> Login(string email, string password)
         {
+            IsLogining = true;
             try
             {
                 UserInfoDocument document = await _userService.Login(email, password);
                 if (document.Code == 0)
                 {
-                    User.Data = document.Data;
+                    User.Instance.Data = document.Data;
                     return "success";
                 }
                 else
@@ -51,6 +50,15 @@ namespace SoftwareKobo.U148.ViewModels
             {
                 return "请检查网络连接";
             }
+            finally
+            {
+                IsLogining = false;
+            }
+        }
+
+        public void Logout()
+        {
+            User.Instance.Data = null;
         }
     }
 }
