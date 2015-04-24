@@ -25,6 +25,8 @@
                 Value="{ThemeResource ApplicationBarPrimaryButtonBackground}" />
         <Setter Property="FontSize"
                 Value="10" />
+        <Setter Property="IsTextScaleFactorEnabled"
+                Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="local:ApplicationBarPrimaryButton">
@@ -47,19 +49,19 @@
                                     <VisualTransition From="Pressed"
                                                       To="PointerOver">
                                         <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="PART_rootGrid" />
+                                            <PointerUpThemeAnimation Storyboard.TargetName="PART_label" />
                                         </Storyboard>
                                     </VisualTransition>
                                     <VisualTransition From="PointerOver"
                                                       To="Normal">
                                         <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="PART_rootGrid" />
+                                            <PointerUpThemeAnimation Storyboard.TargetName="PART_label" />
                                         </Storyboard>
                                     </VisualTransition>
                                     <VisualTransition From="Pressed"
                                                       To="Normal">
                                         <Storyboard>
-                                            <PointerUpThemeAnimation Storyboard.TargetName="PART_rootGrid" />
+                                            <PointerUpThemeAnimation Storyboard.TargetName="PART_label" />
                                         </Storyboard>
                                     </VisualTransition>
                                 </VisualStateGroup.Transitions>
@@ -67,7 +69,7 @@
                                 <VisualState x:Name="PointerOver" />
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <PointerDownThemeAnimation Storyboard.TargetName="PART_rootGrid" />
+                                        <PointerDownThemeAnimation Storyboard.TargetName="PART_label" />
                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Foreground"
                                                                        Storyboard.TargetName="PART_icon">
                                             <DiscreteObjectKeyFrame KeyTime="0"

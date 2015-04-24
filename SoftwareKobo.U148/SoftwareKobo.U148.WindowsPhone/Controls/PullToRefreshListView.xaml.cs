@@ -1,6 +1,7 @@
 ﻿using SoftwareKobo.U148.DataModels.Interfaces;
 using System;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -21,9 +22,12 @@ namespace SoftwareKobo.U148.Controls
         {
             this.InitializeComponent();
 
-            this.Loaded += PullToRefreshListView_Loaded;
+            if (DesignMode.DesignModeEnabled == false)
+            {
+                this.Loaded += PullToRefreshListView_Loaded;
 
-            this.Unloaded += PullToRefreshListView_Unloaded;
+                this.Unloaded += PullToRefreshListView_Unloaded;
+            }
         }
 
         public event ItemClickEventHandler ItemClick

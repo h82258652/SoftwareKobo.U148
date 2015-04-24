@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using SoftwareKobo.U148.DataModels;
+using SoftwareKobo.U148.Datas;
 using SoftwareKobo.U148.Models;
 using SoftwareKobo.U148.Services.Interfaces;
 using System;
@@ -18,6 +19,8 @@ namespace SoftwareKobo.U148.ViewModels
         {
             _feedService = feedService;
 
+            User = new User();
+
             var categoryEnums = Enum.GetValues(typeof(FeedCategory)).Cast<FeedCategory>();
             foreach (var categoryEnum in categoryEnums)
             {
@@ -30,6 +33,21 @@ namespace SoftwareKobo.U148.ViewModels
             get
             {
                 return _categories;
+            }
+        }
+
+        private User _user;
+
+        public User User
+        {
+            get
+            {
+                return _user;
+            }
+            set
+            {
+                _user = value;
+                RaisePropertyChanged(nameof(User));
             }
         }
     }

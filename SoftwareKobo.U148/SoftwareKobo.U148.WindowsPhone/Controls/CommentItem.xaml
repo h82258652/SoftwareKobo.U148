@@ -7,6 +7,8 @@
              xmlns:model="using:SoftwareKobo.U148.Models"
              xmlns:extension="using:SoftwareKobo.U148.Extensions"
              xmlns:conv="using:SoftwareKobo.U148.Converters"
+             xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+             xmlns:core="using:Microsoft.Xaml.Interactions.Core"
              mc:Ignorable="d"
              d:DesignHeight="300"
              d:DesignWidth="400"
@@ -24,7 +26,18 @@
                    Width="64"
                    Height="64"
                    VerticalAlignment="Top"
-                   Margin="10,0,10,0" />
+                   Margin="10,0,10,0">
+                <interactivity:Interaction.Behaviors>
+                    <core:EventTriggerBehavior EventName="ImageOpened">
+                        <core:ChangePropertyAction TargetObject="{Binding ElementName=prgIsImageOpened}"
+                                                   PropertyName="IsActive"
+                                                   Value="False" />
+                    </core:EventTriggerBehavior>
+                </interactivity:Interaction.Behaviors>
+            </Image>
+            <ProgressRing x:Name="prgIsImageOpened"
+                          IsActive="True"
+                          Background="Transparent" />
         </Grid>
         <Grid Grid.Column="1"
               Margin="0,0,10,0">

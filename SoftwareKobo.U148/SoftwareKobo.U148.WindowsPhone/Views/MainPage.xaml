@@ -24,48 +24,88 @@
                                      IsReverseName="True" />
     </Page.Resources>
     <Grid>
-        <Pivot x:Name="pivot"
-               ItemsSource="{Binding Path=Categories}"
-               Background="{ThemeResource HeaderBackgroundBrush}"
-               SelectionChanged="Pivot_SelectionChanged">
-            <Pivot.HeaderTemplate>
-                <DataTemplate>
-                    <Grid Loaded="PivotHeader_Loaded">
-                        <Grid Margin="0,5,0,5">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                                <RowDefinition Height="5" />
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0"
-                                       Text="{Binding Path=Key,Converter={StaticResource ResourceKey=CategoryNameConverter}}"
-                                       FontSize="25"
-                                       Foreground="{ThemeResource MainTextBrush}" />
-                            <Border Grid.Row="1"
-                                    Margin="1,0,1,0" />
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <!-- 本体 -->
+            <Pivot Grid.Row="1"
+                   x:Name="pivot"
+                   ItemsSource="{Binding Path=Categories}"
+                   Background="{ThemeResource HeaderBackgroundBrush}"
+                   SelectionChanged="Pivot_SelectionChanged">
+                <Pivot.HeaderTemplate>
+                    <DataTemplate>
+                        <Grid Loaded="PivotHeader_Loaded">
+                            <Grid Margin="0,5,0,5">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="5" />
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0"
+                                           Text="{Binding Path=Key,Converter={StaticResource ResourceKey=CategoryNameConverter}}"
+                                           FontSize="25"
+                                           Foreground="{ThemeResource MainTextBrush}" />
+                                <Border Grid.Row="1"
+                                        Margin="1,0,1,0" />
+                            </Grid>
                         </Grid>
+                    </DataTemplate>
+                </Pivot.HeaderTemplate>
+                <Pivot.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="-20,-34,-20,0"
+                              Background="{ThemeResource ListBackgroundBrush}">
+                            <controls:PullToRefreshListView Grid.Row="1"
+                                                            ItemsSource="{Binding Path=Value}"
+                                                            ItemClick="PullToRefreshListView_ItemClick">
+                                <controls:PullToRefreshListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border BorderThickness="0,1,0,0"
+                                                BorderBrush="{ThemeResource SplitLineBrush}">
+                                            <controls:FeedItem />
+                                        </Border>
+                                    </DataTemplate>
+                                </controls:PullToRefreshListView.ItemTemplate>
+                            </controls:PullToRefreshListView>
+                        </Grid>
+                    </DataTemplate>
+                </Pivot.ItemTemplate>
+            </Pivot>
+            <!-- 标题 -->
+            <Grid Grid.Row="0"
+                  Background="{ThemeResource U148ThemeBrush}">
+                <Grid Margin="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <!-- 应用名 -->
+                    <Grid Grid.Column="0">
+                        <TextBlock Text="有意思吧"
+                                   Foreground="White"
+                                   FontWeight="SemiBold"
+                                   TextAlignment="Left"
+                                   FontSize="{ThemeResource TextStyleExtraExtraLargeFontSize}"
+                                   VerticalAlignment="Center"
+                                   IsTextScaleFactorEnabled="False" />
                     </Grid>
-                </DataTemplate>
-            </Pivot.HeaderTemplate>
-            <Pivot.ItemTemplate>
-                <DataTemplate>
-                    <Grid Margin="-20,-34,-20,0"
-                          Background="{ThemeResource ListBackgroundBrush}">
-                        <controls:PullToRefreshListView Grid.Row="1"
-                                                        ItemsSource="{Binding Path=Value}"
-                                                        ItemClick="PullToRefreshListView_ItemClick">
-                            <controls:PullToRefreshListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Border BorderThickness="0,1,0,0"
-                                            BorderBrush="{ThemeResource SplitLineBrush}">
-                                        <controls:FeedItem />
-                                    </Border>
-                                </DataTemplate>
-                            </controls:PullToRefreshListView.ItemTemplate>
-                        </controls:PullToRefreshListView>
+                    <!-- 用户头像 -->
+                    <Grid Grid.Column="1">
+                        <Ellipse Width="48"
+                                 Height="48"
+                                 PointerReleased="Ellipse_PointerReleased">
+                            <Ellipse.Fill>
+                                <ImageBrush Stretch="Fill"
+                                           ImageSource="{Binding Path=User.Icon}" />
+                            </Ellipse.Fill>
+                        </Ellipse>
                     </Grid>
-                </DataTemplate>
-            </Pivot.ItemTemplate>
-        </Pivot>
+                </Grid>
+            </Grid>
+        </Grid>
+        <!-- 双击退出 -->
         <Border x:Name="brdExit"
                 Background="#FF373737"
                 VerticalAlignment="Bottom"
@@ -77,7 +117,9 @@
                        Margin="20,15,20,15"
                        FontSize="{ThemeResource TextStyleLargeFontSize}" />
         </Border>
+        <!-- 关于 -->
         <controls:AboutPopup x:Name="ctlAbout" />
+        <!-- 应用程序栏 -->
         <controls:ApplicationBar x:Name="appBar"
                                  PrimaryBackground="{ThemeResource U148ThemeBrush}">
             <controls:ApplicationBar.SecondaryBackground>
@@ -86,7 +128,8 @@
                             Stretch="None" />
             </controls:ApplicationBar.SecondaryBackground>
             <controls:ApplicationBar.SecondaryCommands>
-                <Button Content="beta版反馈意见" Click="ButtonX_Click"></Button>
+                <!--<Button Content="beta版反馈意见"
+                        Click="ButtonX_Click" />-->
                 <Button Style="{StaticResource ApplicationBarSecondaryButtonStyle}"
                         Click="btnSwitchTheme_Click">
                     <StackPanel Orientation="Horizontal">

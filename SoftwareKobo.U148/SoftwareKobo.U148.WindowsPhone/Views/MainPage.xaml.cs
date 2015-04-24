@@ -267,5 +267,10 @@ namespace SoftwareKobo.U148.Views
             email.Subject = "U148有意思吧beta反馈";
             await EmailManager.ShowComposeNewEmailAsync(email);
         }
+
+        private void Ellipse_PointerReleased(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(UserPage));
+        }
     }
 }
