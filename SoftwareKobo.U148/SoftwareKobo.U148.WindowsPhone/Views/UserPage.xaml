@@ -1,14 +1,13 @@
-﻿<Page
-    x:Class="SoftwareKobo.U148.Views.UserPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:SoftwareKobo.U148.Views"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-      Background="{ThemeResource ListBackgroundBrush}">
+﻿<Page x:Class="SoftwareKobo.U148.Views.UserPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:local="using:SoftwareKobo.U148.Views"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d"
+      Background="{ThemeResource ListBackgroundBrush}"
+      RequestedTheme="{Binding Source={StaticResource Settings},Path=ThemeMode,Converter={StaticResource ThemeConverter}}">
 
     <Grid>
-
     </Grid>
 </Page>
