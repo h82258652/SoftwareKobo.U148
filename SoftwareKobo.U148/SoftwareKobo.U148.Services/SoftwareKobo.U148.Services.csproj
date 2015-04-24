@@ -41,7 +41,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="API.cs" />
     <Compile Include="CommentService.cs" />
     <Compile Include="FeedService.cs" />
     <Compile Include="Interfaces\ICommentService.cs" />

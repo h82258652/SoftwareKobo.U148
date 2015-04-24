@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SoftwareKobo.U148.Services
 {
-    class Class1
+    class API
     {
         /*
   public static final String API_ADD_FAVORITE = "http://api.u148.net/json/favourite?id=%1$s&token=%2$s";
