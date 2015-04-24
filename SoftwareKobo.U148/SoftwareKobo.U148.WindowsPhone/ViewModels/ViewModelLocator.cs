@@ -20,6 +20,7 @@ namespace SoftwareKobo.U148.ViewModels
             SimpleIoc.Default.Register<MainPageViewModel>();
             SimpleIoc.Default.Register<DetailPageViewModel>();
             SimpleIoc.Default.Register<CommentPageViewModel>();
+            SimpleIoc.Default.Register<UserPageViewModel>();
         }
 
         public MainPageViewModel Main
@@ -43,6 +44,14 @@ namespace SoftwareKobo.U148.ViewModels
             get
             {
                 return ServiceLocator.Current.GetInstance<CommentPageViewModel>();
+            }
+        }
+
+        public UserPageViewModel User
+        {
+            get
+            {
+                return ServiceLocator.Current.GetInstance<UserPageViewModel>();
             }
         }
     }

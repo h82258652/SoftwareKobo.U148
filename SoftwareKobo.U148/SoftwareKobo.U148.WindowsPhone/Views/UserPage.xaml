@@ -4,10 +4,62 @@
       xmlns:local="using:SoftwareKobo.U148.Views"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls="using:SoftwareKobo.U148.Controls"
+      xmlns:conv="using:SoftwareKobo.U148.Converters"
       mc:Ignorable="d"
       Background="{ThemeResource ListBackgroundBrush}"
       RequestedTheme="{Binding Source={StaticResource Settings},Path=ThemeMode,Converter={StaticResource ThemeConverter}}">
-
+    <Page.Resources>
+        <conv:BooleanReverseConverter x:Key="BooleanReverseConverter" />
+    </Page.Resources>
     <Grid>
+        <!-- 登录 -->
+        <Grid>
+            <Grid>
+                <StackPanel Grid.Row="1"
+                            VerticalAlignment="Center">
+                    <TextBox x:Name="txtEmail" Margin="10"
+                             InputScope="EmailSmtpAddress"
+                             PlaceholderText="邮箱" />
+                    <PasswordBox x:Name="pwdPassword" Margin="10"
+                                 PlaceholderText="密码" />
+                </StackPanel>
+            </Grid>
+            <Grid Background="{ThemeResource U148ThemeBrush}"
+                  VerticalAlignment="Top">
+                <TextBlock Margin="5"
+                           IsTextScaleFactorEnabled="False"
+                           Text="登录"
+                           Foreground="White"
+                           FontSize="{ThemeResource TextStyleExtraExtraLargeFontSize}"
+                           FontWeight="SemiBold"
+                           TextAlignment="Left"
+                           VerticalAlignment="Center" />
+            </Grid>
+            <controls:ApplicationBar x:Name="appBar">
+                <controls:ApplicationBarPrimaryButton IsCompact="{Binding ElementName=appBar,Path=IsOpen,Converter={StaticResource BooleanReverseConverter}}"
+                                                      Label="登录" Click="btnLogin_Click">
+                    <controls:ApplicationBarPrimaryButton.Icon>
+                        <SymbolIcon Symbol="Forward" />
+                    </controls:ApplicationBarPrimaryButton.Icon>
+                </controls:ApplicationBarPrimaryButton>
+            </controls:ApplicationBar>
+        </Grid>
+        <!-- 登出 -->
+        <Grid>
+            <Grid>
+            </Grid>
+            <Grid Background="{ThemeResource U148ThemeBrush}"
+                  VerticalAlignment="Top">
+                <TextBlock Margin="5"
+                           IsTextScaleFactorEnabled="False"
+                           Text="登出"
+                           Foreground="White"
+                           FontSize="{ThemeResource TextStyleExtraExtraLargeFontSize}"
+                           FontWeight="SemiBold"
+                           TextAlignment="Left"
+                           VerticalAlignment="Center" />
+            </Grid>
+        </Grid>
     </Grid>
 </Page>

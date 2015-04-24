@@ -98,6 +98,7 @@
       <DependentUpon>PullToRefreshListView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Converters\BooleanReverseConverter.cs" />
+    <Compile Include="Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\CategoryNameConverter.cs" />
     <Compile Include="Converters\MinimumConverter.cs" />
     <Compile Include="Converters\SolidColorBrushToColorConverter.cs" />
@@ -116,6 +117,7 @@
     <Compile Include="ViewModels\CommentPageViewModel.cs" />
     <Compile Include="ViewModels\DetailPageViewModel.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
+    <Compile Include="ViewModels\UserPageViewModel.cs" />
     <Compile Include="ViewModels\ViewModelLocator.cs" />
     <Compile Include="Views\CommentPage.xaml.cs">
       <DependentUpon>CommentPage.xaml</DependentUpon>

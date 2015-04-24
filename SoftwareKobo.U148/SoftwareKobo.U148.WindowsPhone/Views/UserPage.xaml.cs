@@ -1,4 +1,5 @@
-﻿using Windows.Phone.UI.Input;
+﻿using SoftwareKobo.U148.ViewModels;
+using Windows.Phone.UI.Input;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -11,6 +12,14 @@ namespace SoftwareKobo.U148.Views
     /// </summary>
     public sealed partial class UserPage : Page
     {
+        public UserPageViewModel ViewModel
+        {
+            get
+            {
+                return (UserPageViewModel)this.DataContext;
+            }
+        }
+
         public UserPage()
         {
             this.InitializeComponent();
@@ -37,6 +46,17 @@ namespace SoftwareKobo.U148.Views
             {
                 e.Handled = true;
                 Frame.GoBack();
+            }
+        }
+
+        private async void btnLogin_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            string result = await ViewModel.Login(txtEmail.Text, pwdPassword.Password);
+            if (result == "success")
+            {
+            }
+            else
+            {
             }
         }
     }
