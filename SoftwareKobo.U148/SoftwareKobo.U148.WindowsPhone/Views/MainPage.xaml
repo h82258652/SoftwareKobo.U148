@@ -29,50 +29,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <!-- 本体 -->
-            <Pivot Grid.Row="1"
-                   x:Name="pivot"
-                   ItemsSource="{Binding Path=Categories}"
-                   Background="{ThemeResource HeaderBackgroundBrush}"
-                   SelectionChanged="Pivot_SelectionChanged">
-                <Pivot.HeaderTemplate>
-                    <DataTemplate>
-                        <Grid Loaded="PivotHeader_Loaded">
-                            <Grid Margin="0,5,0,5">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="5" />
-                                </Grid.RowDefinitions>
-                                <TextBlock Grid.Row="0"
-                                           Text="{Binding Path=Key,Converter={StaticResource ResourceKey=CategoryNameConverter}}"
-                                           FontSize="25"
-                                           Foreground="{ThemeResource MainTextBrush}" />
-                                <Border Grid.Row="1"
-                                        Margin="1,0,1,0" />
-                            </Grid>
-                        </Grid>
-                    </DataTemplate>
-                </Pivot.HeaderTemplate>
-                <Pivot.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Margin="-20,-34,-20,0"
-                              Background="{ThemeResource ListBackgroundBrush}">
-                            <controls:PullToRefreshListView Grid.Row="1"
-                                                            ItemsSource="{Binding Path=Value}"
-                                                            ItemClick="PullToRefreshListView_ItemClick">
-                                <controls:PullToRefreshListView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border BorderThickness="0,1,0,0"
-                                                BorderBrush="{ThemeResource SplitLineBrush}">
-                                            <controls:FeedItem />
-                                        </Border>
-                                    </DataTemplate>
-                                </controls:PullToRefreshListView.ItemTemplate>
-                            </controls:PullToRefreshListView>
-                        </Grid>
-                    </DataTemplate>
-                </Pivot.ItemTemplate>
-            </Pivot>
             <!-- 标题 -->
             <Grid Grid.Row="0"
                   Background="{ThemeResource U148ThemeBrush}">
@@ -98,11 +54,56 @@
                                  PointerReleased="Ellipse_PointerReleased">
                             <Ellipse.Fill>
                                 <ImageBrush Stretch="Fill"
-                                           ImageSource="{Binding Path=User.Icon}" />
+                                            ImageSource="{Binding Path=User.Icon}" />
                             </Ellipse.Fill>
                         </Ellipse>
                     </Grid>
                 </Grid>
+            </Grid>
+            <!-- 本体 -->
+            <Grid Grid.Row="1"
+                  Background="{ThemeResource HeaderBackgroundBrush}">
+                <Pivot x:Name="pivot"
+                       ItemsSource="{Binding Path=Categories}"
+                       SelectionChanged="Pivot_SelectionChanged">
+                    <Pivot.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid Loaded="PivotHeader_Loaded">
+                                <Grid Margin="0,5,0,5">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="5" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0"
+                                               Text="{Binding Path=Key,Converter={StaticResource ResourceKey=CategoryNameConverter}}"
+                                               FontSize="25"
+                                               Foreground="{ThemeResource MainTextBrush}" />
+                                    <Border Grid.Row="1"
+                                            Margin="1,0,1,0" />
+                                </Grid>
+                            </Grid>
+                        </DataTemplate>
+                    </Pivot.HeaderTemplate>
+                    <Pivot.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="-20,-34,-20,0"
+                                  Background="{ThemeResource ListBackgroundBrush}">
+                                <controls:PullToRefreshListView Grid.Row="1"
+                                                                ItemsSource="{Binding Path=Value}"
+                                                                ItemClick="PullToRefreshListView_ItemClick">
+                                    <controls:PullToRefreshListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="0,1,0,0"
+                                                    BorderBrush="{ThemeResource SplitLineBrush}">
+                                                <controls:FeedItem />
+                                            </Border>
+                                        </DataTemplate>
+                                    </controls:PullToRefreshListView.ItemTemplate>
+                                </controls:PullToRefreshListView>
+                            </Grid>
+                        </DataTemplate>
+                    </Pivot.ItemTemplate>
+                </Pivot>
             </Grid>
         </Grid>
         <!-- 双击退出 -->

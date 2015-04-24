@@ -8,20 +8,22 @@
       xmlns:conv="using:SoftwareKobo.U148.Converters"
       mc:Ignorable="d"
       Background="{ThemeResource ListBackgroundBrush}"
+      DataContext="{Binding Source={StaticResource Locator},Path=User}"
       RequestedTheme="{Binding Source={StaticResource Settings},Path=ThemeMode,Converter={StaticResource ThemeConverter}}">
     <Page.Resources>
         <conv:BooleanReverseConverter x:Key="BooleanReverseConverter" />
     </Page.Resources>
     <Grid>
         <!-- 登录 -->
-        <Grid>
+        <Grid Visibility="Collapsed">
             <Grid>
-                <StackPanel Grid.Row="1"
-                            VerticalAlignment="Center">
-                    <TextBox x:Name="txtEmail" Margin="10"
+                <StackPanel VerticalAlignment="Center">
+                    <TextBox x:Name="txtEmail"
+                             Margin="10"
                              InputScope="EmailSmtpAddress"
                              PlaceholderText="邮箱" />
-                    <PasswordBox x:Name="pwdPassword" Margin="10"
+                    <PasswordBox x:Name="pwdPassword"
+                                 Margin="10"
                                  PlaceholderText="密码" />
                 </StackPanel>
             </Grid>
@@ -36,9 +38,10 @@
                            TextAlignment="Left"
                            VerticalAlignment="Center" />
             </Grid>
-            <controls:ApplicationBar x:Name="appBar">
-                <controls:ApplicationBarPrimaryButton IsCompact="{Binding ElementName=appBar,Path=IsOpen,Converter={StaticResource BooleanReverseConverter}}"
-                                                      Label="登录" Click="btnLogin_Click">
+            <controls:ApplicationBar x:Name="appBarLogin">
+                <controls:ApplicationBarPrimaryButton IsCompact="{Binding ElementName=appBarLogin,Path=IsOpen,Converter={StaticResource BooleanReverseConverter}}"
+                                                      Label="登录"
+                                                      Click="btnLogin_Click">
                     <controls:ApplicationBarPrimaryButton.Icon>
                         <SymbolIcon Symbol="Forward" />
                     </controls:ApplicationBarPrimaryButton.Icon>
@@ -48,6 +51,20 @@
         <!-- 登出 -->
         <Grid>
             <Grid>
+                <StackPanel Margin="0,100,0,0">
+                    <Ellipse Width="48"
+                             Height="48">
+                        <Ellipse.Fill>
+                            <ImageBrush Stretch="Fill"
+                                        ImageSource="{Binding Path=User.Icon}" />
+                        </Ellipse.Fill>
+                    </Ellipse>
+                    <!--<TextBlock Text="{Binding Path=User.Data.NickName}" />-->
+                    <TextBlock Text="h82258652"
+                               TextAlignment="Center"
+                               Foreground="#7BCFA6" Margin="0,5,0,0" IsTextScaleFactorEnabled="False"
+                               FontSize="13.333" />
+                </StackPanel>
             </Grid>
             <Grid Background="{ThemeResource U148ThemeBrush}"
                   VerticalAlignment="Top">
@@ -60,6 +77,22 @@
                            TextAlignment="Left"
                            VerticalAlignment="Center" />
             </Grid>
+            <controls:ApplicationBar x:Name="appBarLogout">
+                <controls:ApplicationBarPrimaryButton IsCompact="{Binding ElementName=appBarLogout,Path=IsOpen,Converter={StaticResource BooleanReverseConverter}}"
+                                                      Label="登出"
+                                                      Click="btnLogout_Click">
+                    <controls:ApplicationBarPrimaryButton.Icon>
+                        <Grid HorizontalAlignment="Center"
+                              VerticalAlignment="Center">
+                            <Viewbox Width="24"
+                                     Height="24">
+                                <PathIcon Data="M34.201,35.752792L36.154999,37.072937 36.154999,61.028999 26.27,61.028999 26.27,58.465 34.201,58.465z M18.94405,30.222998C17.962244,30.222998 17.167,31.018967 17.167,32.00045 17.167,32.982033 17.962244,33.778 18.94405,33.778 19.925556,33.778 20.721001,32.982033 20.721001,32.00045 20.721001,31.018967 19.925556,30.222998 18.94405,30.222998z M44.257435,25.653L44.257435,29.183289 51.842999,29.183289 51.842999,35.705292 44.257435,35.705292 44.257435,39.237999 34.201,32.444984z M26.27,3.8619995L36.154999,3.8619995 36.154999,27.81745 34.201,29.137484 34.201,6.2989998 26.27,6.2989998z M24.27,0L24.27,64 0,60 0,4.0000029z">
+                                </PathIcon>
+                            </Viewbox>
+                        </Grid>
+                    </controls:ApplicationBarPrimaryButton.Icon>
+                </controls:ApplicationBarPrimaryButton>
+            </controls:ApplicationBar>
         </Grid>
     </Grid>
 </Page>

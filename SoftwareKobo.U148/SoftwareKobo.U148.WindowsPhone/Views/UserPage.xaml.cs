@@ -59,5 +59,10 @@ namespace SoftwareKobo.U148.Views
             {
             }
         }
+
+        private void btnLogout_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+
+        }
     }
 }
