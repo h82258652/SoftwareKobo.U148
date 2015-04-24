@@ -1,7 +1,10 @@
 ﻿using Brain.Animate;
+using System;
+using SoftwareKobo.U148.Datas;
 using SoftwareKobo.U148.Models;
 using SoftwareKobo.U148.ViewModels;
 using Windows.Phone.UI.Input;
+using Windows.UI.Popups;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -57,6 +60,18 @@ namespace SoftwareKobo.U148.Views
                 {
                     Frame.GoBack();
                 }
+            }
+        }
+
+        private async void Button_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            if (User.Instance.IsLogined)
+            {
+                ViewModel.SendComment(txtComment.Text);
+            }
+            else
+            {
+                await new MessageDialog("weidiengaga").ShowAsync();
             }
         }
     }

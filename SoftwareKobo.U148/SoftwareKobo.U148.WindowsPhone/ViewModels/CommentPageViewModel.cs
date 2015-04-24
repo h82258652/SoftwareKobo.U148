@@ -1,5 +1,6 @@
 ﻿using GalaSoft.MvvmLight;
 using SoftwareKobo.U148.DataModels;
+using SoftwareKobo.U148.Datas;
 using SoftwareKobo.U148.Models;
 using SoftwareKobo.U148.Services.Interfaces;
 
@@ -30,6 +31,11 @@ namespace SoftwareKobo.U148.ViewModels
             {
                 return _comments;
             }
+        }
+
+        public async void SendComment(string content)
+        {
+            await _commentService.SendCommentAsync(_feed, User.Instance.Data, content);
         }
     }
 }

@@ -15,12 +15,10 @@
     </bam:AnimationTrigger.Open>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-        </Grid>
-        <Grid Grid.Row="1"
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>        
+        <Grid Grid.Row="0"
               Background="{ThemeResource ListBackgroundBrush}">
             <controls:PullToRefreshListView ItemsSource="{Binding Comments}">
                 <controls:PullToRefreshListView.ItemTemplate>
@@ -32,6 +30,14 @@
                     </DataTemplate>
                 </controls:PullToRefreshListView.ItemTemplate>
             </controls:PullToRefreshListView>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBox x:Name="txtComment" Grid.Column="0" Margin="0" PlaceholderText="写下你的评论"/>
+            <Button Grid.Column="1" Margin="0" Padding="0" Content="发送" Click="Button_Click"/>
         </Grid>
     </Grid>
 </Page>

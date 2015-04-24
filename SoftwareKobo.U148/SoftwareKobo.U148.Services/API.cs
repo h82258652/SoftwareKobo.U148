@@ -53,11 +53,50 @@ namespace SoftwareKobo.U148.Services
         */
 
         /*
+        API_COMMENTS_GET
+        http://api.u148.net/json/get_comment/{0}/page
+
+        page from 1
+        arg0:
+        feed.Id
+        */
+
+        /*
         API_LOGIN
         http://api.u148.net/json/login
         POST
         email
         password
+        */
+
+        /*
+        API_COMMENT_POST
+        http://api.u148.net/json/comment
+        POST
+
+        id           feed.Id
+        token        logined user token
+        client       android or iphone. if null, it will be android.
+        content      comment what you want to send.
+        review_id    which comment you want to review.
+        */
+
+        /*
+        API_ADD_FAVORITE
+        http://api.u148.net/json/favourite?id=%1$s&token=%2$s
+
+        id: feed.Id
+        token: logined user token
+        */
+
+        /*
+        API_FAVORITE_GET
+        http://api.u148.net/json/get_favourite/0/{0}?token={1}
+
+        arg0:
+        page number from 1
+        arg1:
+        logined user token
         */
     }
 }

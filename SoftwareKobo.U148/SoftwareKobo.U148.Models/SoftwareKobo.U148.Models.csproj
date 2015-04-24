@@ -49,6 +49,7 @@
     <Compile Include="Gender.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="FeedUser.cs" />
+    <Compile Include="SendCommentResult.cs" />
     <Compile Include="UserInfo.cs" />
     <Compile Include="UserInfoDocument.cs" />
   </ItemGroup>

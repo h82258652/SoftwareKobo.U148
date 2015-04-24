@@ -42,7 +42,11 @@
                                FontSize="{ThemeResource TextStyleExtraLargeFontSize}"
                                TextWrapping="Wrap" />
                 </StackPanel>
-                <Button HorizontalAlignment="Center" VerticalAlignment="Bottom" Content="没有账号？立即注册！" Margin="0,0,0,100" Click="btnRegister_Click"/>
+                <Button HorizontalAlignment="Center"
+                        VerticalAlignment="Bottom"
+                        Content="没有账号？立即注册！"
+                        Margin="0,0,0,100"
+                        Click="btnRegister_Click" />
             </Grid>
             <Grid x:Name="grdLogining"
                   Visibility="{Binding Path=IsLogining,Converter={StaticResource IsLoginedToLogoutGridVisibilityConverter}}"
@@ -77,35 +81,45 @@
                 </controls:ApplicationBarPrimaryButton>
             </controls:ApplicationBar>
         </Grid>
-        <!-- 登出 -->
+        <!-- 我的账号 -->
         <Grid Visibility="{Binding Source={StaticResource User},Path=IsLogined,Converter={StaticResource IsLoginedToLogoutGridVisibilityConverter},Mode=OneTime}">
             <Grid>
-                <StackPanel Margin="0,100,0,0">
-                    <Ellipse Width="48"
-                             Height="48">
-                        <Ellipse.Fill>
-                            <ImageBrush Stretch="Fill"
-                                        ImageSource="{Binding Source={StaticResource User},Path=Icon,Mode=OneTime}" />
-                        </Ellipse.Fill>
-                    </Ellipse>
-                    <TextBlock Text="{Binding Source={StaticResource User},Path=Data.NickName,Mode=OneTime}"
-                               TextAlignment="Center"
-                               Foreground="#7BCFA6"
-                               Margin="0,5,0,0"
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0"
+                      Background="{ThemeResource U148ThemeBrush}"
+                      VerticalAlignment="Top">
+                    <TextBlock Margin="5"
                                IsTextScaleFactorEnabled="False"
-                               FontSize="{StaticResource TextStyleMediumFontSize}" />
-                </StackPanel>
-            </Grid>
-            <Grid Background="{ThemeResource U148ThemeBrush}"
-                  VerticalAlignment="Top">
-                <TextBlock Margin="5"
-                           IsTextScaleFactorEnabled="False"
-                           Text="登出"
-                           Foreground="White"
-                           FontSize="{ThemeResource TextStyleExtraExtraLargeFontSize}"
-                           FontWeight="SemiBold"
-                           TextAlignment="Left"
-                           VerticalAlignment="Center" />
+                               Text="我的账号"
+                               Foreground="White"
+                               FontSize="{ThemeResource TextStyleExtraExtraLargeFontSize}"
+                               FontWeight="SemiBold"
+                               TextAlignment="Left"
+                               VerticalAlignment="Center" />
+                </Grid>
+                <Grid Grid.Row="1">
+                    <StackPanel Margin="0,10,0,0">
+                        <Ellipse Width="48"
+                                 Height="48">
+                            <Ellipse.Fill>
+                                <ImageBrush Stretch="Fill"
+                                            ImageSource="{Binding Source={StaticResource User},Path=Icon,Mode=OneTime}" />
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock Text="{Binding Source={StaticResource User},Path=Data.NickName,Mode=OneTime}"
+                                   TextAlignment="Center"
+                                   Foreground="#7BCFA6"
+                                   Margin="0,5,0,0"
+                                   IsTextScaleFactorEnabled="False"
+                                   FontSize="{StaticResource TextStyleMediumFontSize}" />
+                    </StackPanel>
+                    <ListView Header="我的收藏">
+                        
+                    </ListView>
+                </Grid>
             </Grid>
             <controls:ApplicationBar x:Name="appBarLogout">
                 <controls:ApplicationBarPrimaryButton IsCompact="{Binding ElementName=appBarLogout,Path=IsOpen,Converter={StaticResource BooleanReverseConverter}}"

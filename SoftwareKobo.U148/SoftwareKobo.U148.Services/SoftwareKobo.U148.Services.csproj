@@ -42,9 +42,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API.cs" />
+    <Compile Include="Client.cs" />
     <Compile Include="CommentService.cs" />
+    <Compile Include="FavoriteService.cs" />
     <Compile Include="FeedService.cs" />
     <Compile Include="Interfaces\ICommentService.cs" />
+    <Compile Include="Interfaces\IFavoriteService.cs" />
     <Compile Include="Interfaces\IFeedService.cs" />
     <Compile Include="Interfaces\IUserService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
