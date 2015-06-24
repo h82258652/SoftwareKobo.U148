@@ -17,20 +17,20 @@ using WinRTXamlToolkit.AwaitableUI;
 
 namespace SoftwareKobo.U148.Controls
 {
-    [ContentProperty(Name = nameof(PrimaryCommands))]
+    [ContentProperty(Name = "PrimaryCommands")]
     public sealed class ApplicationBar : Control
     {
-        public static readonly DependencyProperty IsLeftSwitchEnabledProperty = DependencyProperty.Register(nameof(IsLeftSwitchEnabled), typeof(bool), typeof(ApplicationBar), new PropertyMetadata(true, IsLeftSwitchEnabledChanged));
+        public static readonly DependencyProperty IsLeftSwitchEnabledProperty = DependencyProperty.Register("IsLeftSwitchEnabled", typeof(bool), typeof(ApplicationBar), new PropertyMetadata(true, IsLeftSwitchEnabledChanged));
 
-        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register(nameof(IsOpen), typeof(bool), typeof(ApplicationBar), new PropertyMetadata(false, IsOpenChanged));
+        public static readonly DependencyProperty IsOpenProperty = DependencyProperty.Register("IsOpen", typeof(bool), typeof(ApplicationBar), new PropertyMetadata(false, IsOpenChanged));
 
-        public static readonly DependencyProperty PrimaryCommandsProperty = DependencyProperty.Register(nameof(PrimaryCommands), typeof(ObservableCollection<UIElement>), typeof(ApplicationBar), new PropertyMetadata(null));
+        public static readonly DependencyProperty PrimaryCommandsProperty = DependencyProperty.Register("PrimaryCommands", typeof(ObservableCollection<UIElement>), typeof(ApplicationBar), new PropertyMetadata(null));
 
-        public static readonly DependencyProperty SecondaryCommandsProperty = DependencyProperty.Register(nameof(SecondaryCommands), typeof(ObservableCollection<UIElement>), typeof(ApplicationBar), new PropertyMetadata(null));
+        public static readonly DependencyProperty SecondaryCommandsProperty = DependencyProperty.Register("SecondaryCommands", typeof(ObservableCollection<UIElement>), typeof(ApplicationBar), new PropertyMetadata(null));
 
-        private static readonly DependencyProperty PrimaryBackgroundProperty = DependencyProperty.Register(nameof(PrimaryBackground), typeof(Brush), typeof(ApplicationBar), new PropertyMetadata(null));
+        private static readonly DependencyProperty PrimaryBackgroundProperty = DependencyProperty.Register("PrimaryBackground", typeof(Brush), typeof(ApplicationBar), new PropertyMetadata(null));
 
-        private static readonly DependencyProperty SecondaryBackgroundProperty = DependencyProperty.Register(nameof(SecondaryBackground), typeof(Brush), typeof(ApplicationBar), new PropertyMetadata(null));
+        private static readonly DependencyProperty SecondaryBackgroundProperty = DependencyProperty.Register("SecondaryBackground", typeof(Brush), typeof(ApplicationBar), new PropertyMetadata(null));
 
         private FrameworkElement PART_leftSwitch;
 
@@ -130,17 +130,17 @@ namespace SoftwareKobo.U148.Controls
 
         protected override void OnApplyTemplate()
         {
-            PART_leftSwitch = (FrameworkElement)GetTemplateChild(nameof(PART_leftSwitch));
+            PART_leftSwitch = (FrameworkElement)GetTemplateChild("PART_leftSwitch");
             // 初始化左侧开关。
             PART_leftSwitch.Visibility = IsLeftSwitchEnabled ? Visibility.Visible : Visibility.Collapsed;
             PART_leftSwitch.PointerReleased += Switch_PointerReleased;
 
-            PART_rightSwitch = (FrameworkElement)GetTemplateChild(nameof(PART_rightSwitch));
+            PART_rightSwitch = (FrameworkElement)GetTemplateChild("PART_rightSwitch");
             PART_rightSwitch.PointerReleased += Switch_PointerReleased;
 
-            PART_rightSwicthSymbol = (FrameworkElement)GetTemplateChild(nameof(PART_rightSwicthSymbol));
+            PART_rightSwicthSymbol = (FrameworkElement)GetTemplateChild("PART_rightSwicthSymbol");
 
-            PART_secondary = (FrameworkElement)GetTemplateChild(nameof(PART_secondary));
+            PART_secondary = (FrameworkElement)GetTemplateChild("PART_secondary");
         }
 
         private void Switch_PointerReleased(object sender, PointerRoutedEventArgs e)

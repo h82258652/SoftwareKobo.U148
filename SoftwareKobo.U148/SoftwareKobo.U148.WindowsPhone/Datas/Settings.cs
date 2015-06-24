@@ -19,9 +19,9 @@ namespace SoftwareKobo.U148.Datas
         {
             get
             {
-                if (_localSettings.ContainsKey(nameof(ThemeMode)))
+                if (_localSettings.ContainsKey("ThemeMode"))
                 {
-                    return (ThemeMode)_localSettings[nameof(ThemeMode)];
+                    return (ThemeMode)_localSettings["ThemeMode"];
                 }
                 else
                 {
@@ -30,17 +30,17 @@ namespace SoftwareKobo.U148.Datas
             }
             set
             {
-                if (_localSettings.ContainsKey(nameof(ThemeMode)))
+                if (_localSettings.ContainsKey("ThemeMode"))
                 {
-                    _localSettings[nameof(ThemeMode)] = (int)value;
+                    _localSettings["ThemeMode"] = (int)value;
                 }
                 else
                 {
-                    _localSettings.Add(nameof(ThemeMode), (int)value);
+                    _localSettings.Add("ThemeMode", (int)value);
                 }
                 if (PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(ThemeMode)));
+                    PropertyChanged(this, new PropertyChangedEventArgs("ThemeMode"));
                 }
             }
         }

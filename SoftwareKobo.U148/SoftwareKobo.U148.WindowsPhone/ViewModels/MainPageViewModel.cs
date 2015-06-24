@@ -47,7 +47,7 @@ namespace SoftwareKobo.U148.ViewModels
             set
             {
                 _user = value;
-                RaisePropertyChanged(nameof(User));
+                RaisePropertyChanged("User");
             }
         }
     }

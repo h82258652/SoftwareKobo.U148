@@ -26,7 +26,7 @@ namespace SoftwareKobo.U148.ViewModels
             private set
             {
                 _isLogining = value;
-                RaisePropertyChanged(nameof(IsLogining));
+                RaisePropertyChanged("IsLogining");
             }
         }
 

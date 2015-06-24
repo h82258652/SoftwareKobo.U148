@@ -42,7 +42,7 @@ namespace SoftwareKobo.U148.Models
                     return "短品";
 
                 default:
-                    throw new ArgumentNullException(nameof(category));
+                    throw new ArgumentNullException("category");
             }
         }
 

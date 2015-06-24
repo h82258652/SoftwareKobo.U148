@@ -52,10 +52,10 @@
                     </Grid>
                 </controls:ApplicationBarPrimaryButton.Icon>
             </controls:ApplicationBarPrimaryButton>
-            <controls:ApplicationBar.SecondaryCommands>
+            <!--<controls:ApplicationBar.SecondaryCommands>
                 <Button Style="{StaticResource ApplicationBarSecondaryButtonStyle}"
                         Content="收藏" />
-            </controls:ApplicationBar.SecondaryCommands>
+            </controls:ApplicationBar.SecondaryCommands>-->
         </controls:ApplicationBar>
     </Grid>
 </Page>

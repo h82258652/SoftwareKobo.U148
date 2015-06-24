@@ -7,11 +7,11 @@ namespace SoftwareKobo.U148.Controls
 {
     public class ApplicationBarPrimaryButton : Button
     {
-        public static readonly DependencyProperty IconProperty = DependencyProperty.Register(nameof(Icon), typeof(object), typeof(ApplicationBarPrimaryButton), new PropertyMetadata(null));
+        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(object), typeof(ApplicationBarPrimaryButton), new PropertyMetadata(null));
 
-        public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register(nameof(IsCompact), typeof(bool), typeof(ApplicationBarPrimaryButton), new PropertyMetadata(false, IsCompactChanged));
+        public static readonly DependencyProperty IsCompactProperty = DependencyProperty.Register("IsCompact", typeof(bool), typeof(ApplicationBarPrimaryButton), new PropertyMetadata(false, IsCompactChanged));
 
-        public static readonly DependencyProperty LabelProperty = DependencyProperty.Register(nameof(Label), typeof(object), typeof(ApplicationBarPrimaryButton), new PropertyMetadata(null));
+        public static readonly DependencyProperty LabelProperty = DependencyProperty.Register("Label", typeof(object), typeof(ApplicationBarPrimaryButton), new PropertyMetadata(null));
 
         public ApplicationBarPrimaryButton()
         {

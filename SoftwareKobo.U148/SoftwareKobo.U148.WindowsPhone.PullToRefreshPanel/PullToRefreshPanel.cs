@@ -9,7 +9,7 @@ namespace SoftwareKobo.U148.Controls
 {
     public class PullToRefreshPanel : ContentControl
     {
-        public static readonly DependencyProperty PullContentProperty = DependencyProperty.Register(nameof(PullContent), typeof(object), typeof(PullToRefreshPanel), new PropertyMetadata(null));
+        public static readonly DependencyProperty PullContentProperty = DependencyProperty.Register("PullContent", typeof(object), typeof(PullToRefreshPanel), new PropertyMetadata(null));
 
         private FrameworkElement PART_contentGrid;
 
@@ -48,12 +48,12 @@ namespace SoftwareKobo.U148.Controls
 
         protected override void OnApplyTemplate()
         {
-            PART_scrollViewer = (ScrollViewer)GetTemplateChild(nameof(PART_scrollViewer));
+            PART_scrollViewer = (ScrollViewer)GetTemplateChild("PART_scrollViewer");
             PART_scrollViewer.ViewChanged += PART_scrollViewer_ViewChanged;
 
-            PART_pullGrid = (FrameworkElement)GetTemplateChild(nameof(PART_pullGrid));
+            PART_pullGrid = (FrameworkElement)GetTemplateChild("PART_pullGrid");
 
-            PART_contentGrid = (FrameworkElement)GetTemplateChild(nameof(PART_contentGrid));
+            PART_contentGrid = (FrameworkElement)GetTemplateChild("PART_contentGrid");
         }
 
         private async void PART_scrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)

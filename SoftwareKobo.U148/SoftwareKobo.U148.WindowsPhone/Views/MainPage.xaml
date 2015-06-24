@@ -31,7 +31,8 @@
             </Grid.RowDefinitions>
             <!-- 标题 -->
             <Grid Grid.Row="0"
-                  Background="{ThemeResource U148ThemeBrush}">
+                  Background="{ThemeResource U148ThemeBrush}"
+                  Visibility="Collapsed">
                 <Grid Margin="5">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />

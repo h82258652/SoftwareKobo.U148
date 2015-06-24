@@ -95,6 +95,8 @@ namespace SoftwareKobo.U148.Views
             await _isDomContentLoaded.Task;
 
             await webView.InvokeScriptAsync("setContent", new string[] { content });
+
+            await webView.InvokeScriptAsync("removeImgLink", new string[] { });
         }
 
         private void WebView_DOMContentLoaded(WebView sender, WebViewDOMContentLoadedEventArgs args)

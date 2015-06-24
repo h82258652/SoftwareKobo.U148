@@ -12,7 +12,7 @@ namespace SoftwareKobo.U148.Controls
 {
     public sealed partial class PullToRefreshListView : UserControl
     {
-        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register(nameof(ItemsSource), typeof(object), typeof(PullToRefreshListView), new PropertyMetadata(null, ItemsSourceChanged));
+        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register("ItemsSource", typeof(object), typeof(PullToRefreshListView), new PropertyMetadata(null, ItemsSourceChanged));
 
         public static readonly DependencyProperty ItemTemplateProperty = ListView.ItemTemplateProperty;
 

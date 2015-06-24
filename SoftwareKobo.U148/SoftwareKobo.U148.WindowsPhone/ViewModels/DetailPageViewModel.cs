@@ -30,7 +30,7 @@ namespace SoftwareKobo.U148.ViewModels
             private set
             {
                 _feed = value;
-                RaisePropertyChanged(nameof(Feed));
+                RaisePropertyChanged("Feed");
             }
         }
 
@@ -43,7 +43,7 @@ namespace SoftwareKobo.U148.ViewModels
             private set
             {
                 _detail = value;
-                RaisePropertyChanged(nameof(Detail));
+                RaisePropertyChanged("Detail");
             }
         }
 

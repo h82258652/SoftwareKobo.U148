@@ -28,7 +28,7 @@ namespace SoftwareKobo.U148.DataModels
             protected set
             {
                 _isLoading = value;
-                this.OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsLoading)));
+                this.OnPropertyChanged(new PropertyChangedEventArgs("IsLoading"));
             }
         }
 
@@ -95,7 +95,7 @@ namespace SoftwareKobo.U148.DataModels
             protected set
             {
                 _lastLoaded = value;
-                this.OnPropertyChanged(new PropertyChangedEventArgs(nameof(LastLoaded)));
+                this.OnPropertyChanged(new PropertyChangedEventArgs("LastLoaded"));
             }
         }
     }

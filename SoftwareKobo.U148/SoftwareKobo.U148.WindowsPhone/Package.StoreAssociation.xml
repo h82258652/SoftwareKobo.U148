@@ -194,5 +194,11 @@
     <MainPackageIdentityName>18174h82258652.forWP8.1</MainPackageIdentityName>
     <MainPackageIdentityName>18174h82258652.36821D577DB6D</MainPackageIdentityName>
   </AccountPackageIdentityNames>
-  <PackageInfoList LandingUrl="https://dev.windowsphone.com/AppSubmission/AssociationLanding?windowsProductId=1d0487b4-1d47-4f2d-b2f5-96a8cf2721ce" />
+  <PackageInfoList LandingUrl="https://dev.windowsphone.com/AppSubmission/AssociationLanding?windowsProductId=1d0487b4-1d47-4f2d-b2f5-96a8cf2721ce">
+    <PackageInfo>
+      <OsMinVersion>6.3.0.0</OsMinVersion>
+      <PackageArchitecture>neutral</PackageArchitecture>
+      <PackageMaxArchitectureVersion>1.1.0.2</PackageMaxArchitectureVersion>
+    </PackageInfo>
+  </PackageInfoList>
 </StoreAssociation>

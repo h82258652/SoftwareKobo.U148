@@ -25,9 +25,9 @@ namespace SoftwareKobo.U148.Datas
         {
             get
             {
-                if (_localSettings.ContainsKey(nameof(Data)))
+                if (_localSettings.ContainsKey("Data"))
                 {
-                    string json = (string)_localSettings[nameof(Data)];
+                    string json = (string)_localSettings["Data"];
                     try
                     {
                         return JsonConvert.DeserializeObject<UserInfo>(json);
@@ -47,27 +47,27 @@ namespace SoftwareKobo.U148.Datas
                 if (value != null)
                 {
                     string json = JsonConvert.SerializeObject(value);
-                    if (_localSettings.ContainsKey(nameof(Data)))
+                    if (_localSettings.ContainsKey("Data"))
                     {
-                        _localSettings[nameof(Data)] = json;
+                        _localSettings["Data"] = json;
                     }
                     else
                     {
-                        _localSettings.Add(nameof(Data), json);
+                        _localSettings.Add("Data", json);
                     }
                 }
                 else
                 {
-                    if (_localSettings.ContainsKey(nameof(Data)))
+                    if (_localSettings.ContainsKey("Data"))
                     {
-                        _localSettings.Remove(nameof(Data));
+                        _localSettings.Remove("Data");
                     }
                 }
                 if (PropertyChanged != null)
                 {
-                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(Data)));
-                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(IsLogined)));
-                    PropertyChanged(this, new PropertyChangedEventArgs(nameof(Icon)));
+                    PropertyChanged(this, new PropertyChangedEventArgs("Data"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("IsLogined"));
+                    PropertyChanged(this, new PropertyChangedEventArgs("Icon"));
                 }
             }
         }

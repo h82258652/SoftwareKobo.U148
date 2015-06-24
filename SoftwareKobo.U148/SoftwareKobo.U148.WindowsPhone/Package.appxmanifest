@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="18174h82258652.U148" Publisher="CN=D8CBB42C-5DD4-4A02-8424-31AF9627DADA" Version="1.1.0.2" />
+  <Identity Name="18174h82258652.U148" Publisher="CN=D8CBB42C-5DD4-4A02-8424-31AF9627DADA" Version="1.1.0.3" />
   <mp:PhoneIdentity PhoneProductId="3352f43b-61e3-4738-a238-da3115fecdb0" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>U148有意思吧</DisplayName>
@@ -17,7 +17,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="SoftwareKobo.U148.App">
-      <m3:VisualElements DisplayName="有意思吧" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="SoftwareKobo.U148.WindowsPhone" ForegroundText="light" BackgroundColor="#FF9900" ToastCapable="true">
+      <m3:VisualElements DisplayName="有意思吧" Square150x150Logo="Assets\Logo.png" Square44x44Logo="Assets\SmallLogo.png" Description="有意思吧非官方客户端。只完成基础功能，大部分都还没做好，望见谅。" ForegroundText="light" BackgroundColor="#FF9900" ToastCapable="true">
         <m3:DefaultTile Square71x71Logo="Assets\Square71x71Logo.png">
         </m3:DefaultTile>
         <m3:InitialRotationPreference>
